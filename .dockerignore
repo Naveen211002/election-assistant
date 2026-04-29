@@ -1,0 +1,7 @@
+node_modules
+.env
+.git
+.gitignore
+README.md
+PROMPTING_LOGIC.md
+.DS_Store

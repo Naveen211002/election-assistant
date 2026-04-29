@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0e1a">
+  <meta name="description" content="VoteMitra - AI-Powered Election Process Education Assistant. Learn about Indian elections, voter registration, EVMs, and more.">
+  <title>VoteMitra 🗳️ Election Education Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗳️</text></svg>">
+</head>
+<body>
+  <a href="#main-content" class="sr-only sr-only-focusable" id="skip-link">Skip to main content</a>
+  <!-- ═══ Animated Background ═══ -->
+  <div class="bg-gradient"></div>
+  <div class="bg-particles" id="particles"></div>
+
+  <!-- ═══ Main Container ═══ -->
+  <div class="app-container">
+
+    <!-- ═══ Header ═══ -->
+    <header class="app-header" id="app-header">
+      <div class="header-content">
+        <div class="logo-section">
+          <div class="logo-icon">🗳️</div>
+          <div class="logo-text">
+            <h1>VoteMitra</h1>
+            <span class="logo-subtitle">Election Education Assistant</span>
+          </div>
+        </div>
+        <div class="header-badge">
+          <span class="badge-dot"></span>
+          <span>Powered by Google Gemini AI</span>
+        </div>
+      </div>
+
+      <!-- ═══ Navigation Tabs ═══ -->
+      <nav class="tab-nav" id="tab-nav" role="tablist" aria-label="Main navigation tabs">
+        <button class="tab-btn active" data-tab="journey" id="tab-journey" role="tab" aria-selected="true" aria-controls="panel-journey" tabindex="0">
+          <span class="tab-icon" aria-hidden="true">🗺️</span>
+          <span class="tab-label">Journey Map</span>
+        </button>
+        <button class="tab-btn" data-tab="chat" id="tab-chat" role="tab" aria-selected="false" aria-controls="panel-chat" tabindex="-1">
+          <span class="tab-icon" aria-hidden="true">💬</span>
+          <span class="tab-label">AI Chat</span>
+        </button>
+        <button class="tab-btn" data-tab="quiz" id="tab-quiz" role="tab" aria-selected="false" aria-controls="panel-quiz" tabindex="-1">
+          <span class="tab-icon" aria-hidden="true">🧠</span>
+          <span class="tab-label">Quiz</span>
+        </button>
+        <button class="tab-btn" data-tab="flashcards" id="tab-flashcards" role="tab" aria-selected="false" aria-controls="panel-flashcards" tabindex="-1">
+          <span class="tab-icon" aria-hidden="true">📇</span>
+          <span class="tab-label">Flashcards</span>
+        </button>
+        <button class="tab-btn" data-tab="guide" id="tab-guide" role="tab" aria-selected="false" aria-controls="panel-guide" tabindex="-1">
+          <span class="tab-icon" aria-hidden="true">📋</span>
+          <span class="tab-label">Voter Guide</span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- ═══ Main Content ═══ -->
+    <main class="main-content" id="main-content" role="main">
+
+      <!-- ══════════════════════════════════════════ -->
+      <!-- TAB 1: INTERACTIVE JOURNEY MAP             -->
+      <!-- ══════════════════════════════════════════ -->
+      <section class="tab-panel active" id="panel-journey" role="tabpanel" aria-labelledby="tab-journey">
+        <div class="section-header">
+          <h2>🇮🇳 The Indian Election Journey</h2>
+          <p>Follow the 10 stages from delimitation to declaration of results</p>
+        </div>
+
+        <div class="timeline" id="timeline">
+          <!-- Stage 1 -->
+          <div class="timeline-item" data-stage="1">
+            <div class="timeline-marker"><span>1</span></div>
+            <div class="timeline-card">
+              <div class="card-header">
+                <span class="stage-emoji">🗺️</span>
+                <h3>Delimitation of Constituencies</h3>
+              </div>
+              <div class="card-body">
+                <p>The Delimitation Commission redraws the boundaries of parliamentary and assembly constituencies based on the latest Census data. This ensures <strong>equal representation</strong> — each constituency has roughly the same population.</p>
+                <div class="card-facts">
+                  <div class="fact"><span class="fact-label">Authority</span><span class="fact-value">Delimitation Commission of India</span></div>
+                  <div class="fact"><span class="fact-label">Basis</span><span class="fact-value">Census population data</span></div>
+                  <div class="fact"><span class="fact-label">Last Done</span><span class="fact-value">2008 (based on 2001 Census)</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stage 2 -->
+          <div class="timeline-item" data-stage="2">
+            <div class="timeline-marker"><span>2</span></div>
+            <div class="timeline-card">
+              <div class="card-header">
+                <span class="stage-emoji">📝</span>
+                <h3>Preparation of Electoral Rolls</h3>
+              </div>
+              <div class="card-body">
+                <p>The ECI continuously updates the <strong>voter list</strong> for every constituency. Citizens can register using <strong>Form 6</strong>, and existing entries can be corrected via Form 8. Special revision drives are held before major elections.</p>
+                <div class="card-facts">
+                  <div class="fact"><span class="fact-label">Registration</span><span class="fact-value">Form 6 (new) / Form 6A (NRI)</span></div>
+                  <div class="fact"><span class="fact-label">Eligibility</span><span class="fact-value">Indian citizen, 18+ years</span></div>
+                  <div class="fact"><span class="fact-label">Platform</span><span class="fact-value">Voter Helpline App / voters.eci.gov.in</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stage 3 -->
+          <div class="timeline-item" data-stage="3">
+            <div class="timeline-marker"><span>3</span></div>
+            <div class="timeline-card">
+              <div class="card-header">
+                <span class="stage-emoji">📢</span>
+                <h3>Announcement of Election Schedule</h3>
+              </div>
+              <div class="card-body">
+                <p>The ECI holds a press conference to announce the election schedule, including dates for nominations, polling, and counting. The <strong>Model Code of Conduct (MCC)</strong> comes into effect immediately upon announcement.</p>
+                <div class="card-facts">
+                  <div class="fact"><span class="fact-label">MCC Effect</span><span class="fact-value">Immediate upon announcement</span></div>
+                  <div class="fact"><span class="fact-label">Phases</span><span class="fact-value">Multi-phase for large elections</span></div>
+                  <div class="fact"><span class="fact-label">Duration</span><span class="fact-value">~6-8 weeks for general elections</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stage 4 -->
+          <div class="timeline-item" data-stage="4">
+            <div class="timeline-marker"><span>4</span></div>
+            <div class="timeline-card">
+              <div class="card-header">
+                <span class="stage-emoji">📜</span>
+                <h3>Issue of Notification</h3>
+              </div>
+              <div class="card-body">
+                <p>The President (for Lok Sabha) or Governor (for State Assembly) issues a formal <strong>notification</strong> calling upon constituencies to elect their representatives. This is the legal starting gun for the election process.</p>
+                <div class="card-facts">
+                  <div class="fact"><span class="fact-label">Lok Sabha</span><span class="fact-value">President of India</span></div>
+                  <div class="fact"><span class="fact-label">Vidhan Sabha</span><span class="fact-value">State Governor</span></div>
+                  <div class="fact"><span class="fact-label">Published in</span><span class="fact-value">Gazette of India</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stage 5 -->
+          <div class="timeline-item" data-stage="5">
+            <div class="timeline-marker"><span>5</span></div>
+            <div class="timeline-card">
+              <div class="card-header">
+                <span class="stage-emoji">📄</span>
+                <h3>Filing of Nominations</h3>
+              </div>
+              <div class="card-body">
+                <p>Candidates file their <strong>nomination papers</strong> with the Returning Officer. They must declare criminal cases, assets, liabilities, and educational qualifications. A security deposit is also required.</p>
+                <div class="card-facts">
+                  <div class="fact"><span class="fact-label">Deposit (General)</span><span class="fact-value">₹25,000 (Lok Sabha)</span></div>
+                  <div class="fact"><span class="fact-label">Deposit (SC/ST)</span><span class="fact-value">₹12,500 (Lok Sabha)</span></div>
+                  <div class="fact"><span class="fact-label">Affidavit</span><span class="fact-value">Criminal record, assets, education</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stage 6 -->
+          <div class="timeline-item" data-stage="6">
+            <div class="timeline-marker"><span>6</span></div>
+            <div class="timeline-card">
+              <div class="card-header">
+                <span class="stage-emoji">🔍</span>
+                <h3>Scrutiny of Nominations</h3>
+              </div>
+              <div class="card-body">
+                <p>The Returning Officer examines all nomination papers for validity. Nominations can be rejected for reasons like incorrect forms, missing signatures, or failure to meet eligibility criteria (age, citizenship, etc.).</p>
+                <div class="card-facts">
+                  <div class="fact"><span class="fact-label">Timeline</span><span class="fact-value">Day after last date of nomination</span></div>
+                  <div class="fact"><span class="fact-label">Authority</span><span class="fact-value">Returning Officer</span></div>
+                  <div class="fact"><span class="fact-label">Appeal</span><span class="fact-value">High Court (Election Petition)</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stage 7 -->
+          <div class="timeline-item" data-stage="7">
+            <div class="timeline-marker"><span>7</span></div>
+            <div class="timeline-card">
+              <div class="card-header">
+                <span class="stage-emoji">🚪</span>
+                <h3>Withdrawal of Candidature</h3>
+              </div>
+              <div class="card-body">
+                <p>Candidates who wish to exit the race can <strong>withdraw</strong> their nomination before the deadline. After this date, the final list of contesting candidates is published by the Returning Officer.</p>
+                <div class="card-facts">
+                  <div class="fact"><span class="fact-label">Deadline</span><span class="fact-value">2 days after scrutiny</span></div>
+                  <div class="fact"><span class="fact-label">After withdrawal</span><span class="fact-value">Final candidate list published</span></div>
+                  <div class="fact"><span class="fact-label">Symbols</span><span class="fact-value">Allotted after final list</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stage 8 -->
+          <div class="timeline-item" data-stage="8">
+            <div class="timeline-marker"><span>8</span></div>
+            <div class="timeline-card">
+              <div class="card-header">
+                <span class="stage-emoji">📣</span>
+                <h3>Election Campaigning</h3>
+              </div>
+              <div class="card-body">
+                <p>Candidates and parties campaign through rallies, door-to-door visits, social media, and advertisements. All campaigning must follow the <strong>Model Code of Conduct</strong>. Campaign stops <strong>48 hours before polling</strong>.</p>
+                <div class="card-facts">
+                  <div class="fact"><span class="fact-label">Silence Period</span><span class="fact-value">48 hours before polling</span></div>
+                  <div class="fact"><span class="fact-label">Spending Limit</span><span class="fact-value">₹95 lakh (Lok Sabha)</span></div>
+                  <div class="fact"><span class="fact-label">Oversight</span><span class="fact-value">ECI Media Certification Committee</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stage 9 -->
+          <div class="timeline-item" data-stage="9">
+            <div class="timeline-marker"><span>9</span></div>
+            <div class="timeline-card">
+              <div class="card-header">
+                <span class="stage-emoji">🗳️</span>
+                <h3>Polling Day (Voting)</h3>
+              </div>
+              <div class="card-body">
+                <p>Citizens cast their votes at designated polling stations using <strong>EVMs</strong> (Electronic Voting Machines) with <strong>VVPAT</strong> verification. Voters get indelible ink on their left index finger after voting.</p>
+                <div class="card-facts">
+                  <div class="fact"><span class="fact-label">Hours</span><span class="fact-value">7:00 AM to 6:00 PM (typical)</span></div>
+                  <div class="fact"><span class="fact-label">ID Required</span><span class="fact-value">EPIC or 12 approved photo IDs</span></div>
+                  <div class="fact"><span class="fact-label">Ink</span><span class="fact-value">Indelible ink on left index finger</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stage 10 -->
+          <div class="timeline-item" data-stage="10">
+            <div class="timeline-marker"><span>10</span></div>
+            <div class="timeline-card">
+              <div class="card-header">
+                <span class="stage-emoji">🏆</span>
+                <h3>Counting & Declaration of Results</h3>
+              </div>
+              <div class="card-body">
+                <p>EVMs are opened in counting halls under the Returning Officer's supervision. VVPAT slips from <strong>5 random booths per constituency</strong> are verified. The candidate with the most votes is declared the winner.</p>
+                <div class="card-facts">
+                  <div class="fact"><span class="fact-label">VVPAT Check</span><span class="fact-value">5 random booths per constituency</span></div>
+                  <div class="fact"><span class="fact-label">Winner</span><span class="fact-value">First Past The Post (FPTP)</span></div>
+                  <div class="fact"><span class="fact-label">Certificate</span><span class="fact-value">Certificate of Election issued</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════ -->
+      <!-- TAB 2: AI CHAT ASSISTANT                   -->
+      <!-- ══════════════════════════════════════════ -->
+      <section class="tab-panel" id="panel-chat" role="tabpanel" aria-labelledby="tab-chat">
+        <div class="chat-container">
+          <div class="chat-header">
+            <div class="chat-avatar">🗳️</div>
+            <div>
+              <h2>Chat with VoteMitra</h2>
+              <p class="chat-status"><span class="status-dot"></span> AI-powered by Google Gemini</p>
+            </div>
+          </div>
+
+          <div class="chat-messages" id="chat-messages" role="log" aria-live="polite" aria-label="Chat conversation">
+            <div class="message bot-message animate-in">
+              <div class="message-avatar">🗳️</div>
+              <div class="message-bubble">
+                <p>🇮🇳 <strong>Namaste! I'm VoteMitra</strong> — your Election Education Assistant.</p>
+                <p>Ask me anything about:</p>
+                <ul>
+                  <li>🗳️ How elections work in India</li>
+                  <li>📋 Voter registration process</li>
+                  <li>🏛️ EVMs and VVPATs</li>
+                  <li>📅 Election timelines & stages</li>
+                  <li>📖 Constitutional provisions</li>
+                </ul>
+                <p>Try: <em>"How do I register to vote?"</em> or <em>"What is NOTA?"</em></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-suggestions" id="chat-suggestions">
+            <button class="suggestion-chip" data-msg="How do I register to vote?">📋 How to register?</button>
+            <button class="suggestion-chip" data-msg="What is an EVM and how does it work?">🗳️ What is EVM?</button>
+            <button class="suggestion-chip" data-msg="Explain the 10 stages of Indian elections">🔟 Election stages</button>
+            <button class="suggestion-chip" data-msg="What is NOTA and when was it introduced?">❌ What is NOTA?</button>
+            <button class="suggestion-chip" data-msg="What is the Model Code of Conduct?">📜 MCC Rules</button>
+          </div>
+
+          <form class="chat-input-area" id="chat-form">
+            <label for="chat-input" class="sr-only">Type your election question</label>
+            <input type="text" id="chat-input" placeholder="Ask about Indian elections..." autocomplete="off" maxlength="500">
+            <button type="submit" id="chat-send" title="Send message" aria-label="Send message">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════ -->
+      <!-- TAB 3: QUIZ MODE                           -->
+      <!-- ══════════════════════════════════════════ -->
+      <section class="tab-panel" id="panel-quiz" role="tabpanel" aria-labelledby="tab-quiz">
+        <div class="quiz-container">
+          <!-- Quiz Start Screen -->
+          <div class="quiz-start" id="quiz-start">
+            <div class="quiz-start-icon">🧠</div>
+            <h2>Test Your Election Knowledge</h2>
+            <p>5 AI-generated questions to challenge your understanding of Indian elections</p>
+
+            <div class="quiz-options">
+              <div class="quiz-option-group">
+                <label>Difficulty</label>
+                <div class="option-pills" id="difficulty-pills">
+                  <button class="pill" data-value="easy">Easy</button>
+                  <button class="pill active" data-value="medium">Medium</button>
+                  <button class="pill" data-value="hard">Hard</button>
+                </div>
+              </div>
+              <div class="quiz-option-group">
+                <label>Topic</label>
+                <div class="option-pills" id="topic-pills">
+                  <button class="pill active" data-value="general">General</button>
+                  <button class="pill" data-value="voter-registration">Registration</button>
+                  <button class="pill" data-value="evm-vvpat">EVM/VVPAT</button>
+                  <button class="pill" data-value="election-stages">Stages</button>
+                  <button class="pill" data-value="constitutional">Constitution</button>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn-primary btn-large" id="quiz-start-btn" aria-label="Start the election quiz">
+              <span>Start Quiz</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </button>
+          </div>
+
+          <!-- Quiz Question Screen (hidden by default) -->
+          <div class="quiz-question-area hidden" id="quiz-question-area">
+            <div class="quiz-progress">
+              <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quiz-progress-fill"></div></div>
+              <span class="quiz-counter" id="quiz-counter">1 / 5</span>
+            </div>
+
+            <div class="quiz-question-card" id="quiz-question-card">
+              <h3 id="quiz-question-text"></h3>
+              <div class="quiz-options-list" id="quiz-options-list"></div>
+              <div class="quiz-explanation hidden" id="quiz-explanation"></div>
+              <button class="btn-primary hidden" id="quiz-next-btn">Next Question →</button>
+            </div>
+          </div>
+
+          <!-- Quiz Results Screen (hidden by default) -->
+          <div class="quiz-results hidden" id="quiz-results">
+            <div class="results-score-circle" id="results-score-circle">
+              <svg viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="54" class="score-bg"/>
+                <circle cx="60" cy="60" r="54" class="score-fill" id="score-fill"/>
+              </svg>
+              <span class="score-text" id="score-text">0/5</span>
+            </div>
+            <h2 id="results-title">Great Job!</h2>
+            <p id="results-message">You know your election facts!</p>
+            <button class="btn-primary btn-large" id="quiz-retry-btn">Try Again 🔄</button>
+          </div>
+
+          <!-- Quiz Loading -->
+          <div class="quiz-loading hidden" id="quiz-loading">
+            <div class="loader"></div>
+            <p>Generating questions with AI...</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════ -->
+      <!-- TAB 4: FLASHCARDS                          -->
+      <!-- ══════════════════════════════════════════ -->
+      <section class="tab-panel" id="panel-flashcards" role="tabpanel" aria-labelledby="tab-flashcards">
+        <div class="section-header">
+          <h2>📇 Election Flashcards</h2>
+          <p>Click cards to flip and learn key election terms</p>
+          <button class="btn-primary" id="load-flashcards-btn" aria-label="Generate new flashcards">Generate New Cards 🔄</button>
+        </div>
+
+        <div class="flashcard-grid" id="flashcard-grid">
+          <!-- Flashcards loaded dynamically -->
+        </div>
+
+        <div class="flashcard-loading hidden" id="flashcard-loading">
+          <div class="loader"></div>
+          <p>AI is generating flashcards...</p>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════ -->
+      <!-- TAB 5: VOTER REGISTRATION GUIDE            -->
+      <!-- ══════════════════════════════════════════ -->
+      <section class="tab-panel" id="panel-guide" role="tabpanel" aria-labelledby="tab-guide">
+        <div class="section-header">
+          <h2>📋 Voter Registration Guide</h2>
+          <p>Everything you need to become a registered voter in India</p>
+        </div>
+
+        <div class="guide-grid">
+          <!-- Eligibility -->
+          <div class="guide-card" id="guide-eligibility">
+            <div class="guide-card-icon">✅</div>
+            <h3>Eligibility</h3>
+            <ul>
+              <li>Indian citizen</li>
+              <li>18 years or older (as of Jan 1 of revision year)</li>
+              <li>Ordinary resident of the constituency</li>
+              <li>Not disqualified under any law</li>
+              <li>Of sound mind and not declared so by court</li>
+            </ul>
+          </div>
+
+          <!-- Documents -->
+          <div class="guide-card" id="guide-documents">
+            <div class="guide-card-icon">📄</div>
+            <h3>Documents Required</h3>
+            <div class="doc-group">
+              <h4>Age Proof (any one)</h4>
+              <ul>
+                <li>Aadhaar Card</li>
+                <li>PAN Card</li>
+                <li>Birth Certificate</li>
+                <li>Class X / XII Marksheet</li>
+                <li>Driving License</li>
+              </ul>
+            </div>
+            <div class="doc-group">
+              <h4>Address Proof (any one)</h4>
+              <ul>
+                <li>Aadhaar Card</li>
+                <li>Bank Passbook</li>
+                <li>Utility Bill (electricity, water, gas)</li>
+                <li>Rent Agreement</li>
+                <li>Passport</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Steps -->
+          <div class="guide-card guide-card-wide" id="guide-steps">
+            <div class="guide-card-icon">👣</div>
+            <h3>Registration Steps</h3>
+            <div class="steps-list">
+              <div class="step-item">
+                <div class="step-num">1</div>
+                <div><strong>Online Method:</strong> Visit <a href="https://voters.eci.gov.in" target="_blank" rel="noopener">voters.eci.gov.in</a> or download the <strong>Voter Helpline App</strong></div>
+              </div>
+              <div class="step-item">
+                <div class="step-num">2</div>
+                <div>Click <strong>"New Voter Registration"</strong> and fill <strong>Form 6</strong></div>
+              </div>
+              <div class="step-item">
+                <div class="step-num">3</div>
+                <div>Upload passport-size photo, age proof, and address proof</div>
+              </div>
+              <div class="step-item">
+                <div class="step-num">4</div>
+                <div>Submit and note your <strong>Reference Number</strong></div>
+              </div>
+              <div class="step-item">
+                <div class="step-num">5</div>
+                <div>A <strong>Booth Level Officer (BLO)</strong> will visit your address for verification</div>
+              </div>
+              <div class="step-item">
+                <div class="step-num">6</div>
+                <div>Upon approval, your name is added to the Electoral Roll and <strong>EPIC (Voter ID)</strong> is issued</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Forms -->
+          <div class="guide-card" id="guide-forms">
+            <div class="guide-card-icon">📝</div>
+            <h3>Important Forms</h3>
+            <div class="form-list">
+              <div class="form-item"><span class="form-badge">Form 6</span> New voter registration</div>
+              <div class="form-item"><span class="form-badge">Form 6A</span> NRI voter registration</div>
+              <div class="form-item"><span class="form-badge">Form 7</span> Objection to inclusion / request deletion</div>
+              <div class="form-item"><span class="form-badge">Form 8</span> Correction of entries in roll</div>
+              <div class="form-item"><span class="form-badge">Form 8A</span> Transposition within constituency</div>
+            </div>
+          </div>
+
+          <!-- Voting Day -->
+          <div class="guide-card" id="guide-voting-day">
+            <div class="guide-card-icon">🗳️</div>
+            <h3>On Voting Day</h3>
+            <ul>
+              <li>Carry your <strong>EPIC (Voter ID)</strong> or any of the 12 approved photo IDs</li>
+              <li>Go to your <strong>assigned polling station</strong> (check on Voter Helpline App)</li>
+              <li>Stand in the queue; your identity will be verified</li>
+              <li>Indelible ink is applied on your left index finger</li>
+              <li>Enter the voting booth, press the button next to your chosen candidate on the <strong>EVM</strong></li>
+              <li>Verify your vote on the <strong>VVPAT</strong> paper slip (visible for 7 seconds)</li>
+              <li>Exit the polling station — <strong>your vote is cast!</strong> 🎉</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ═══ Footer ═══ -->
+    <footer class="app-footer">
+      <p>Built for <strong>PromptWars Challenge 2</strong> by Google for Developers × Hack2skill</p>
+      <p class="footer-sub">Powered by Google Gemini AI | Deployed on Google Cloud Run</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
