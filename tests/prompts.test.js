@@ -1,25 +1,28 @@
-describe("Prompt Logic Fallbacks", () => {
-  it("should have valid quiz fallback with 5 questions", () => {
-    const quiz = {
-      questions: [
-        { id: 1, question: "Test?", options: ["A","B","C","D"], correct: 1, explanation: "Test", topic: "test" },
-        { id: 2, question: "Test?", options: ["A","B","C","D"], correct: 1, explanation: "Test", topic: "test" },
-        { id: 3, question: "Test?", options: ["A","B","C","D"], correct: 1, explanation: "Test", topic: "test" },
-        { id: 4, question: "Test?", options: ["A","B","C","D"], correct: 1, explanation: "Test", topic: "test" },
-        { id: 5, question: "Test?", options: ["A","B","C","D"], correct: 1, explanation: "Test", topic: "test" }
-      ]
-    };
-    expect(quiz.questions).toHaveLength(5);
-    quiz.questions.forEach(q => {
-      expect(q.options).toHaveLength(4);
-      expect(q.correct).toBeGreaterThanOrEqual(0);
-      expect(q.correct).toBeLessThan(4);
-    });
+import { validateChatMessage, redactMessageForTelemetry } from "../server.js";
+
+describe("Input validation and telemetry helpers", () => {
+  it("rejects non-string messages", () => {
+    expect(validateChatMessage(null)).toBe("Message must be a string");
+    expect(validateChatMessage(123)).toBe("Message must be a string");
   });
 
-  it("should generate session IDs with expected prefix", () => {
-    const generateSessionId = () => "sess_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
-    const id = generateSessionId();
-    expect(id).toMatch(/^sess_[a-z0-9]+$/);
+  it("rejects blank or whitespace-only messages", () => {
+    expect(validateChatMessage("")).toBe("Message is required");
+    expect(validateChatMessage("   ")).toBe("Message is required");
+  });
+
+  it("rejects message exceeding max limit", () => {
+    const result = validateChatMessage("x".repeat(1201));
+    expect(result).toMatch(/Message too long/);
+  });
+
+  it("accepts valid messages", () => {
+    expect(validateChatMessage("How to register to vote?")).toBeNull();
+  });
+
+  it("redacts telemetry payload to 140 chars", () => {
+    const longMessage = "a".repeat(500);
+    const preview = redactMessageForTelemetry(longMessage);
+    expect(preview).toHaveLength(140);
   });
 });

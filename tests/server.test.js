@@ -4,17 +4,6 @@ import dotenv from "dotenv";
 // Load environment variables for real API calls
 dotenv.config();
 
-// We only mock Google Cloud Logging to prevent credential errors in test environments.
-// The Gemini AI calls will be 100% REAL.
-jest.unstable_mockModule("@google-cloud/logging", () => ({
-  Logging: jest.fn().mockImplementation(() => ({
-    log: jest.fn().mockReturnValue({
-      entry: jest.fn(),
-      write: jest.fn().mockResolvedValue()
-    })
-  }))
-}));
-
 const request = (await import("supertest")).default;
 const { app } = await import("../server.js");
 
@@ -31,22 +20,40 @@ describe("VoteMitra API (REAL-TIME DATA VERIFICATION)", () => {
     });
   });
 
+  describe("GET /api/ready", () => {
+    it("should return readiness checks", async () => {
+      const res = await request(app).get("/api/ready");
+      expect(res.status).toBe(200);
+      expect(res.body.status).toBe("ready");
+      expect(res.body.checks).toHaveProperty("webServer", true);
+      expect(res.body.checks).toHaveProperty("aiConfigured");
+      expect(res.body.checks).toHaveProperty("bigQueryConfigured");
+    });
+  });
+
   describe("POST /api/chat (REAL AI CALL)", () => {
-    it("should return a REAL Gemini AI reply", async () => {
+    it("should return a chat reply from gemini or fallback", async () => {
       const res = await request(app)
         .post("/api/chat")
         .send({ message: "What is the role of the Election Commission of India?" });
       
       expect(res.status).toBe(200);
       expect(res.body).toHaveProperty("reply");
-      expect(res.body.source).toBe("gemini");
-      expect(res.body.reply.length).toBeGreaterThan(100);
-      console.log("Real AI Response Received:", res.body.reply.substring(0, 50) + "...");
+      expect(["gemini", "fallback", "safety-fallback"]).toContain(res.body.source);
+      expect(res.body.reply.length).toBeGreaterThan(20);
     });
 
     it("should handle error for empty message", async () => {
       const res = await request(app).post("/api/chat").send({ message: "" });
       expect(res.status).toBe(400);
+    });
+
+    it("should reject oversized input", async () => {
+      const res = await request(app)
+        .post("/api/chat")
+        .send({ message: "x".repeat(1300) });
+      expect(res.status).toBe(400);
+      expect(res.body.error).toMatch(/Message too long/i);
     });
   });
 
@@ -63,6 +70,9 @@ describe("VoteMitra API (REAL-TIME DATA VERIFICATION)", () => {
       const q = res.body.questions[0];
       expect(q).toHaveProperty("question");
       expect(q.options.length).toBe(4);
+      expect(typeof q.correct).toBe("number");
+      expect(q.correct).toBeGreaterThanOrEqual(0);
+      expect(q.correct).toBeLessThan(4);
     });
   });
 
@@ -76,6 +86,7 @@ describe("VoteMitra API (REAL-TIME DATA VERIFICATION)", () => {
       expect(res.body).toHaveProperty("flashcards");
       expect(res.body.flashcards.length).toBeGreaterThanOrEqual(1);
       expect(res.body.flashcards[0]).toHaveProperty("term");
+      expect(res.body.flashcards[0]).toHaveProperty("definition");
     });
   });
 

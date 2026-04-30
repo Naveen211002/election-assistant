@@ -17,6 +17,7 @@ dotenv.config();
 
 const PORT = process.env.PORT || 8080;
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const MAX_MESSAGE_LENGTH = 1200;
 
 /** 
  * ✅ MODEL FALLBACK CHAIN
@@ -26,7 +27,7 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const MODEL_CHAIN = [
   "gemini-3-flash-preview", 
   "gemini-2.5-flash", 
-  "gemini-1.5-flash-8b",     // New high-quota fallback
+  "gemini-2.0-flash",
   "gemini-flash-latest"
 ];
 const MODEL_NAME = MODEL_CHAIN[0];
@@ -34,42 +35,38 @@ const MODEL_NAME = MODEL_CHAIN[0];
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// ── Google Cloud Logging ─────────────────────────────────────
-let cloudLogger = null;
-if (process.env.K_SERVICE || process.env.GOOGLE_CLOUD_PROJECT) {
+// ── Structured Logger ─────────────────────────────────────────
+const cloudLogger = {
+  info: (msg, meta = {}) => console.log(JSON.stringify({ severity: "INFO", message: msg, ...meta })),
+  error: (msg, meta = {}) => console.error(JSON.stringify({ severity: "ERROR", message: msg, ...meta })),
+};
+
+// ── Google BigQuery Telemetry (Optional) ─────────────────────
+let analyticsWriter = null;
+if (process.env.GOOGLE_CLOUD_PROJECT && process.env.BIGQUERY_DATASET && process.env.BIGQUERY_TABLE) {
   try {
-    const { Logging } = await import("@google-cloud/logging");
-    const logging = new Logging();
-    const log = logging.log("votemitra-app");
-    cloudLogger = {
-      info: (msg, meta = {}) => {
-        try {
-          const entry = log.entry({ resource: { type: "cloud_run_revision" }, severity: "INFO" }, { message: msg, ...meta });
-          log.write(entry).catch(() => {});
-        } catch (e) {}
-      },
-      error: (msg, meta = {}) => {
-        try {
-          const entry = log.entry({ resource: { type: "cloud_run_revision" }, severity: "ERROR" }, { message: msg, ...meta });
-          log.write(entry).catch(() => {});
-        } catch (e) {}
+    const { BigQuery } = await import("@google-cloud/bigquery");
+    const bigquery = new BigQuery({ projectId: process.env.GOOGLE_CLOUD_PROJECT });
+    const table = bigquery.dataset(process.env.BIGQUERY_DATASET).table(process.env.BIGQUERY_TABLE);
+    analyticsWriter = async (row) => {
+      try {
+        await table.insert([row]);
+      } catch (error) {
+        cloudLogger.error("BigQuery insert failed", { error: error.message });
       }
     };
-    console.log("✅ Google Cloud Logging initialized");
-  } catch (err) {
-    console.log("ℹ️  Cloud Logging failed, using console fallback");
-    cloudLogger = null;
+    console.log("✅ BigQuery analytics initialized");
+  } catch (error) {
+    console.log("ℹ️  BigQuery unavailable, analytics will be skipped");
   }
 }
 
-if (!cloudLogger) {
-  cloudLogger = {
-    info: (msg) => console.log(`[INFO] ${msg}`),
-    error: (msg) => console.error(`[ERROR] ${msg}`)
-  };
-  if (!process.env.K_SERVICE) {
-    console.log("ℹ️  Local dev mode — using console logging");
-  }
+if (!analyticsWriter) {
+  analyticsWriter = async () => {};
+}
+
+if (!process.env.K_SERVICE) {
+  console.log("ℹ️  Local dev mode — using structured console logging");
 }
 
 // ── Gemini AI Initialization ─────────────────────────────────
@@ -240,6 +237,31 @@ RESPONSE FORMAT (strict JSON only, no markdown):
 Return ONLY valid JSON, no extra text.`;
 }
 
+function validateChatMessage(message) {
+  if (typeof message !== "string") return "Message must be a string";
+  const trimmed = message.trim();
+  if (!trimmed) return "Message is required";
+  if (trimmed.length > MAX_MESSAGE_LENGTH) return `Message too long (max ${MAX_MESSAGE_LENGTH} characters)`;
+  return null;
+}
+
+function redactMessageForTelemetry(message) {
+  if (!message) return "";
+  // Keep lightweight, privacy-aware analytics by storing only a preview.
+  return message.trim().slice(0, 140);
+}
+
+function trackEvent(eventType, data = {}) {
+  const payload = {
+    eventType,
+    timestamp: new Date().toISOString(),
+    service: "votemitra",
+    ...data,
+  };
+  cloudLogger.info(`analytics:${eventType}`, payload);
+  void analyticsWriter(payload);
+}
+
 // ── Chat Sessions ────────────────────────────────────────────
 const chatSessions = new Map();
 const SESSION_TTL = 30 * 60 * 1000;
@@ -332,16 +354,36 @@ app.get("/api/health", (req, res) => {
   });
 });
 
+app.get("/api/ready", (req, res) => {
+  const bigQueryConfigured = Boolean(
+    process.env.GOOGLE_CLOUD_PROJECT &&
+      process.env.BIGQUERY_DATASET &&
+      process.env.BIGQUERY_TABLE,
+  );
+  const ready = true;
+  res.status(ready ? 200 : 503).json({
+    status: ready ? "ready" : "not-ready",
+    checks: {
+      webServer: true,
+      aiConfigured: Boolean(GEMINI_API_KEY),
+      bigQueryConfigured,
+    },
+    timestamp: new Date().toISOString(),
+  });
+});
+
 // ── Chat API ─────────────────────────────────────────────────
 app.post("/api/chat", async (req, res) => {
   const { message, sessionId } = req.body;
   const sid = sessionId || generateSessionId();
 
   try {
-    if (!message || typeof message !== "string" || message.trim().length === 0) {
-      return res.status(400).json({ error: "Message is required" });
+    const validationError = validateChatMessage(message);
+    if (validationError) {
+      return res.status(400).json({ error: validationError });
     }
     if (!model) {
+      trackEvent("chat_fallback_local", { sessionId: sid, messagePreview: redactMessageForTelemetry(message) });
       return res.json({ reply: getFallbackResponse(message), sessionId: sid, source: "fallback" });
     }
 
@@ -374,6 +416,12 @@ app.post("/api/chat", async (req, res) => {
       return chatSession.sendMessage(message.trim());
     });
     const reply = result.response.text();
+    trackEvent("chat_success", {
+      sessionId: sid,
+      source: "gemini",
+      responseLength: reply.length,
+      messagePreview: redactMessageForTelemetry(message),
+    });
 
     res.json({ reply, sessionId: sid, source: "gemini" });
   } catch (error) {
@@ -382,6 +430,12 @@ app.post("/api/chat", async (req, res) => {
     
     // FINAL SAFETY NET: If AI fails, return a smart local response
     const fallbackReply = getFallbackResponse(message);
+    trackEvent("chat_safety_fallback", {
+      sessionId: sid,
+      source: "safety-fallback",
+      error: error.message,
+      messagePreview: redactMessageForTelemetry(message),
+    });
     res.json({ 
       reply: fallbackReply, 
       sessionId: sid, 
@@ -404,10 +458,18 @@ app.post("/api/quiz", async (req, res) => {
       });
       return quizModel.generateContent(QUIZ_PROMPT(difficulty, topic));
     });
-    res.json(JSON.parse(result.response.text()));
+    const quiz = JSON.parse(result.response.text());
+    trackEvent("quiz_success", {
+      source: "gemini",
+      difficulty: difficulty || "medium",
+      topic: topic || "general",
+      questionCount: Array.isArray(quiz.questions) ? quiz.questions.length : 0,
+    });
+    res.json(quiz);
   } catch (error) {
     console.error("Quiz API Error:", error.message);
     cloudLogger.error("Quiz API Error", { error: error.message });
+    trackEvent("quiz_fallback", { source: "fallback", error: error.message });
     res.json(getFallbackQuiz());
   }
 });
@@ -425,10 +487,17 @@ app.post("/api/flashcards", async (req, res) => {
       });
       return flashModel.generateContent(FLASHCARD_PROMPT(topic));
     });
-    res.json(JSON.parse(result.response.text()));
+    const flashcards = JSON.parse(result.response.text());
+    trackEvent("flashcards_success", {
+      source: "gemini",
+      topic: topic || "general",
+      flashcardCount: Array.isArray(flashcards.flashcards) ? flashcards.flashcards.length : 0,
+    });
+    res.json(flashcards);
   } catch (error) {
     console.error("Flashcard API Error:", error.message);
     cloudLogger.error("Flashcard API Error", { error: error.message });
+    trackEvent("flashcards_fallback", { source: "fallback", error: error.message });
     res.json(getFallbackFlashcards());
   }
 });
@@ -518,4 +587,4 @@ if (isMain) {
   });
 }
 
-export { app };
+export { app, validateChatMessage, redactMessageForTelemetry };
