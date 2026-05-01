@@ -10,6 +10,7 @@ WORKDIR /app
 COPY --from=builder /app/node_modules ./node_modules
 COPY server.js .
 COPY enrichPrompt.js .
+COPY src/ ./src/
 COPY public/ ./public/
 
 EXPOSE 8080

@@ -78,23 +78,74 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify({ message: text, sessionId })
       });
 
-      const data = await response.json();
+      if (!response.ok) throw new Error("API error");
+
+      // Handle streaming response
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
       
-      // Remove typing indicator and add bot response
+      // Remove typing indicator before adding response
       document.getElementById(typingId).remove();
       
-      if (data.reply) {
-        appendMessage("bot", data.reply);
-        if (data.sessionId) {sessionId = data.sessionId;}
-      } else {
-        appendMessage("bot", "I'm sorry, I'm having trouble connecting right now. Please try again.");
+      // Create a message bubble for the bot that we will update
+      const botMessageId = "bot-" + Date.now();
+      const botMessageEl = createEmptyBotMessage(botMessageId);
+      chatMessages.appendChild(botMessageEl);
+      const bubble = botMessageEl.querySelector(".message-bubble");
+      
+      let fullText = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk.split("\n");
+        
+        for (const line of lines) {
+          if (line.startsWith("data: ")) {
+            const dataStr = line.slice(6).trim();
+            if (dataStr === "[DONE]") break;
+            
+            try {
+              const data = JSON.parse(dataStr);
+              if (data.chunk) {
+                fullText += data.chunk;
+                bubble.innerHTML = formatMarkdown(fullText);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+              }
+              if (data.sessionId) { sessionId = data.sessionId; }
+            } catch (e) { /* ignore partial JSON */ }
+          }
+        }
       }
+
     } catch (error) {
-      document.getElementById(typingId).remove();
-      appendMessage("bot", "Network error. Please check if the server is running.");
+      const typingEl = document.getElementById(typingId);
+      if (typingEl) typingEl.remove();
+      appendMessage("bot", "I'm sorry, I'm having trouble connecting right now. Please try again.");
     }
 
     chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function createEmptyBotMessage(id) {
+    const div = document.createElement("div");
+    div.id = id;
+    div.className = "message bot-message animate-in";
+    div.innerHTML = `
+      <div class="message-avatar">🗳️</div>
+      <div class="message-bubble">...</div>
+    `;
+    return div;
+  }
+
+  function formatMarkdown(text) {
+    return text
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\n/g, "<br>")
+      .replace(/• (.*?)<br>/g, "<li>$1</li>")
+      .replace(/- (.*?)<br>/g, "<li>$1</li>");
   }
 
   function appendMessage(role, text) {
@@ -223,15 +274,28 @@ document.addEventListener("DOMContentLoaded", () => {
     // Disable all buttons
     options.forEach(b => b.disabled = true);
 
-    if (selectedIndex === q.correct) {
+    // AI might return strings like "1", "A", or the actual text. Let's be defensive.
+    let isCorrect = false;
+    let correctIndex = parseInt(q.correct);
+    
+    if (selectedIndex === correctIndex) {
+      isCorrect = true;
+    } else if (q.correct === btn.textContent || q.correct === String.fromCharCode(65 + selectedIndex)) {
+      isCorrect = true;
+    }
+
+    if (isCorrect) {
       btn.classList.add("correct");
       score++;
     } else {
       btn.classList.add("wrong");
-      options[q.correct].classList.add("correct");
+      // Try to highlight the correct one if we can identify it
+      if (!isNaN(correctIndex) && correctIndex >= 0 && correctIndex < options.length) {
+        options[correctIndex].classList.add("correct");
+      }
     }
 
-    quizExplanation.textContent = q.explanation;
+    quizExplanation.textContent = q.explanation || "No explanation provided.";
     quizExplanation.classList.remove("hidden");
     quizNextBtn.classList.remove("hidden");
   }
