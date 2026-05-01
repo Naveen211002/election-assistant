@@ -1,10 +1,20 @@
 {
-  "env": { "node": true, "es2022": true, "jest": true },
-  "parserOptions": { "ecmaVersion": 2022, "sourceType": "module" },
+  "env": {
+    "node": true,
+    "browser": true,
+    "es2022": true,
+    "jest": true
+  },
+  "extends": ["eslint:recommended"],
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module"
+  },
   "rules": {
-    "no-unused-vars": "warn",
-    "no-console": "off",
-    "semi": ["error", "always"],
-    "quotes": ["warn", "double"]
+    "no-unused-vars": "error",
+    "eqeqeq": "error",
+    "curly": "error",
+    "prefer-const": "error",
+    "no-var": "error"
   }
 }

@@ -1,6 +1,11 @@
 export default {
-  testEnvironment: "node",
-  transform: {},
-  testMatch: ["**/tests/**/*.test.js"],
-  testTimeout: 15000
+  testEnvironment: 'node',
+  collectCoverage: true,
+  coverageDirectory: 'coverage',
+  coverageThreshold: {
+    global: {
+      lines: 75
+    }
+  },
+  transform: {}
 };

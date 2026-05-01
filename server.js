@@ -12,6 +12,8 @@ import helmet from "helmet";
 import cors from "cors";
 import compression from "compression";
 import rateLimit from "express-rate-limit";
+import { BigQuery } from "@google-cloud/bigquery";
+import { enrichPrompt } from "./enrichPrompt.js";
 
 dotenv.config();
 
@@ -41,28 +43,30 @@ const cloudLogger = {
   error: (msg, meta = {}) => console.error(JSON.stringify({ severity: "ERROR", message: msg, ...meta })),
 };
 
-// ── Google BigQuery Telemetry (Optional) ─────────────────────
-let analyticsWriter = null;
-if (process.env.GOOGLE_CLOUD_PROJECT && process.env.BIGQUERY_DATASET && process.env.BIGQUERY_TABLE) {
-  try {
-    const { BigQuery } = await import("@google-cloud/bigquery");
-    const bigquery = new BigQuery({ projectId: process.env.GOOGLE_CLOUD_PROJECT });
-    const table = bigquery.dataset(process.env.BIGQUERY_DATASET).table(process.env.BIGQUERY_TABLE);
-    analyticsWriter = async (row) => {
-      try {
-        await table.insert([row]);
-      } catch (error) {
-        cloudLogger.error("BigQuery insert failed", { error: error.message });
-      }
-    };
-    console.log("✅ BigQuery analytics initialized");
-  } catch (error) {
-    console.log("ℹ️  BigQuery unavailable, analytics will be skipped");
-  }
-}
+// ── Google BigQuery Telemetry ─────────────────────
+const bigquery = new BigQuery({ 
+  projectId: process.env.GCP_PROJECT_ID || process.env.GOOGLE_CLOUD_PROJECT 
+});
 
-if (!analyticsWriter) {
-  analyticsWriter = async () => {};
+/**
+ * Logs chat interactions to Google BigQuery for analytics.
+ * @param {string} sessionId - The session identifier.
+ * @param {string} userMessage - The message from the user.
+ * @param {string} modelReply - The reply from the AI model.
+ * @returns {Promise<void>}
+ */
+async function logChatToBigQuery(sessionId, userMessage, modelReply) {
+  if (process.env.NODE_ENV === 'test') { return; }
+  try {
+    await bigquery.dataset(process.env.BIGQUERY_DATASET || 'election_analytics').table('chat_logs').insert([{ 
+      session_id: sessionId, 
+      timestamp: new Date().toISOString(), 
+      user_message: userMessage.substring(0, 500), 
+      model_reply: modelReply.substring(0, 2000) 
+    }]);
+  } catch (err) {
+    console.warn('BigQuery log skipped:', err.message);
+  }
 }
 
 if (!process.env.K_SERVICE) {
@@ -81,6 +85,11 @@ if (GEMINI_API_KEY) {
 
 // ── Model Fallback Helper ────────────────────────────────────
 // Tries each model in MODEL_CHAIN until one succeeds
+/**
+ * Executes an AI model call with automatic fallback to other models if the primary fails.
+ * @param {Function} buildApiCall - Function that performs the API call with a given model.
+ * @returns {Promise<any>} The result of the successful API call.
+ */
 async function executeWithModelFallback(buildApiCall) {
   let lastError;
   for (const modelName of MODEL_CHAIN) {
@@ -109,6 +118,10 @@ async function executeWithModelFallback(buildApiCall) {
 }
 
 // ── System Prompt ────────────────────────────────────────────
+/**
+ * Returns the primary system prompt for VoteMitra.
+ * @returns {string} The formatted system prompt.
+ */
 function SYSTEM_PROMPT() {
   return `You are "VoteMitra" (वोट मित्र) — an expert, friendly, and multilingual AI assistant 
 specializing in the Indian Election Process. You were created to educate citizens, especially 
@@ -191,6 +204,12 @@ Stage 10: Counting & Results
 }
 
 // ── Quiz Prompt ──────────────────────────────────────────────
+/**
+ * Generates the prompt for the election quiz.
+ * @param {string} difficulty - The difficulty level (easy, medium, hard).
+ * @param {string} topic - The topic for the quiz.
+ * @returns {string} The formatted quiz prompt.
+ */
 function QUIZ_PROMPT(difficulty, topic) {
   return `Generate exactly 5 multiple-choice quiz questions about the Indian election process.
 
@@ -216,6 +235,11 @@ Return ONLY valid JSON, no extra text.`;
 }
 
 // ── Flashcard Prompt ─────────────────────────────────────────
+/**
+ * Generates the prompt for election flashcards.
+ * @param {string} topic - The topic for the flashcards.
+ * @returns {string} The formatted flashcard prompt.
+ */
 function FLASHCARD_PROMPT(topic) {
   return `Generate exactly 8 educational flashcards about Indian election terminology.
 
@@ -237,20 +261,35 @@ RESPONSE FORMAT (strict JSON only, no markdown):
 Return ONLY valid JSON, no extra text.`;
 }
 
+/**
+ * Validates the user's chat message.
+ * @param {string} message - The message to validate.
+ * @returns {string|null} Error message if invalid, else null.
+ */
 function validateChatMessage(message) {
-  if (typeof message !== "string") return "Message must be a string";
+  if (typeof message !== "string") {return "Message must be a string";}
   const trimmed = message.trim();
-  if (!trimmed) return "Message is required";
-  if (trimmed.length > MAX_MESSAGE_LENGTH) return `Message too long (max ${MAX_MESSAGE_LENGTH} characters)`;
+  if (!trimmed) {return "Message is required";}
+  if (trimmed.length > MAX_MESSAGE_LENGTH) {return `Message too long (max ${MAX_MESSAGE_LENGTH} characters)`;}
   return null;
 }
 
+/**
+ * Redacts a message for safe telemetry logging.
+ * @param {string} message - The message to redact.
+ * @returns {string} The redacted message.
+ */
 function redactMessageForTelemetry(message) {
-  if (!message) return "";
+  if (!message) {return "";}
   // Keep lightweight, privacy-aware analytics by storing only a preview.
   return message.trim().slice(0, 140);
 }
 
+/**
+ * Tracks an application event.
+ * @param {string} eventType - The type of event.
+ * @param {Object} data - Additional event data.
+ */
 function trackEvent(eventType, data = {}) {
   const payload = {
     eventType,
@@ -259,7 +298,7 @@ function trackEvent(eventType, data = {}) {
     ...data,
   };
   cloudLogger.info(`analytics:${eventType}`, payload);
-  void analyticsWriter(payload);
+  // analyticsWriter removed in favor of direct BigQuery call in chat endpoint
 }
 
 // ── Chat Sessions ────────────────────────────────────────────
@@ -268,6 +307,12 @@ const SESSION_TTL = 30 * 60 * 1000;
 
 // ── Retry Helper ─────────────────────────────────────────────
 // ✅ FIXED: correct loop that sleeps before throwing on final attempt
+/**
+ * Executes a function with automatic retry logic.
+ * @param {Function} apiCall - The function to retry.
+ * @param {number} maxRetries - Maximum number of retries.
+ * @returns {Promise<any>} The result of the function.
+ */
 async function executeWithRetry(apiCall, maxRetries = 2) {
   let lastError;
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
@@ -281,7 +326,7 @@ async function executeWithRetry(apiCall, maxRetries = 2) {
         error.message.includes("overloaded") ||
         error.message.includes("UNAVAILABLE");
 
-      if (!isRetryable || attempt === maxRetries) throw error;
+      if (!isRetryable || attempt === maxRetries) {throw error;}
 
       const jitter = Math.random() * 1000;
       const delay = Math.pow(2, attempt) * 1000 + jitter; // 2-3s, 4-5s
@@ -294,12 +339,14 @@ async function executeWithRetry(apiCall, maxRetries = 2) {
 }
 
 // Cleanup expired sessions every 10 minutes
-setInterval(() => {
-  const now = Date.now();
-  for (const [id, session] of chatSessions) {
-    if (now - session.lastActive > SESSION_TTL) chatSessions.delete(id);
-  }
-}, 10 * 60 * 1000);
+if (process.env.NODE_ENV !== 'test') {
+  setInterval(() => {
+    const now = Date.now();
+    for (const [id, session] of chatSessions) {
+      if (now - session.lastActive > SESSION_TTL) {chatSessions.delete(id);}
+    }
+  }, 10 * 60 * 1000);
+}
 
 // ── Express App ──────────────────────────────────────────────
 const app = express();
@@ -308,14 +355,20 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      imgSrc: ["'self'", "data:", "https:"],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:"],
       connectSrc: ["'self'"],
+      frameSrc: ["'none'"],
+      objectSrc: ["'none'"],
     },
   },
+  hsts: {
+    maxAge: 31536000,
+    includeSubDomains: true,
+  }
 }));
+app.disable('x-powered-by');
 app.use(cors({ origin: true, credentials: true }));
 app.use(compression());
 
@@ -373,83 +426,95 @@ app.get("/api/ready", (req, res) => {
 });
 
 // ── Chat API ─────────────────────────────────────────────────
+/**
+ * Gets or creates a chat session.
+ * @param {string} sid - Session ID.
+ * @param {string} context - Enrichment context.
+ * @returns {Object} The chat session.
+ */
+function getOrCreateSession(sid, context) {
+  let session = chatSessions.get(sid);
+  if (!session) {
+    session = {
+      chat: model.startChat({
+        history: [
+          { role: "user", parts: [{ text: `You are VoteMitra... Context: ${context} ` + SYSTEM_PROMPT() }] },
+          { role: "model", parts: [{ text: "Namaste! 🇮🇳 I am VoteMitra — your Election Education Assistant." }] },
+        ],
+        generationConfig: { temperature: 0.7, topP: 0.9, topK: 40, maxOutputTokens: 1024 },
+      }),
+      lastActive: Date.now(),
+    };
+    chatSessions.set(sid, session);
+  }
+  session.lastActive = Date.now();
+  return session;
+}
+
+/**
+ * Sends a message using the fallback model chain.
+ * @param {Object} session - The chat session.
+ * @param {string} message - The user message.
+ * @param {string} context - Enrichment context.
+ * @returns {Promise<string>} The AI reply.
+ */
+async function sendChatWithFallback(session, message, context) {
+  const result = await executeWithModelFallback((m) => {
+    const chatSession = m === model ? session.chat : m.startChat({
+      history: [
+        { role: "user", parts: [{ text: `You are VoteMitra... Context: ${context} ` + SYSTEM_PROMPT() }] },
+        { role: "model", parts: [{ text: "Namaste! 🇮🇳 I am VoteMitra." }] },
+      ],
+      generationConfig: { temperature: 0.7, topP: 0.9, topK: 40, maxOutputTokens: 1024 },
+    });
+    return chatSession.sendMessage(message.trim());
+  });
+  return result.response.text();
+}
+
+/**
+ * Handles POST requests to the chat API endpoint.
+ * @param {Object} req - The Express request object.
+ * @param {Object} res - The Express response object.
+ * @returns {Promise<void>}
+ */
 app.post("/api/chat", async (req, res) => {
   const { message, sessionId } = req.body;
   const sid = sessionId || generateSessionId();
-
   try {
     const validationError = validateChatMessage(message);
-    if (validationError) {
-      return res.status(400).json({ error: validationError });
-    }
+    if (validationError) { return res.status(400).json({ error: validationError }); }
+
+    const { intent, context } = enrichPrompt(message);
     if (!model) {
-      trackEvent("chat_fallback_local", { sessionId: sid, messagePreview: redactMessageForTelemetry(message) });
+      trackEvent("chat_fallback_local", { sessionId: sid, messagePreview: redactMessageForTelemetry(message), intent });
       return res.json({ reply: getFallbackResponse(message), sessionId: sid, source: "fallback" });
     }
 
-    let session = chatSessions.get(sid);
-    if (!session) {
-      session = {
-        chat: model.startChat({
-          history: [
-            { role: "user", parts: [{ text: "You are VoteMitra, an expert election education assistant for Indian elections. " + SYSTEM_PROMPT() }] },
-            { role: "model", parts: [{ text: "Namaste! 🇮🇳 I am VoteMitra — your Election Education Assistant." }] },
-          ],
-          generationConfig: { temperature: 0.7, topP: 0.9, topK: 40, maxOutputTokens: 1024 },
-        }),
-        lastActive: Date.now(),
-      };
-      chatSessions.set(sid, session);
-    }
-
-    session.lastActive = Date.now();
+    const session = getOrCreateSession(sid, context);
+    const reply = await sendChatWithFallback(session, message, context);
     
-    // Use model fallback chain
-    const result = await executeWithModelFallback((m) => {
-      const chatSession = m === model ? session.chat : m.startChat({
-        history: [
-          { role: "user", parts: [{ text: "You are VoteMitra... " + SYSTEM_PROMPT() }] },
-          { role: "model", parts: [{ text: "Namaste! 🇮🇳 I am VoteMitra." }] },
-        ],
-        generationConfig: { temperature: 0.7, topP: 0.9, topK: 40, maxOutputTokens: 1024 },
-      });
-      return chatSession.sendMessage(message.trim());
-    });
-    const reply = result.response.text();
-    trackEvent("chat_success", {
-      sessionId: sid,
-      source: "gemini",
-      responseLength: reply.length,
-      messagePreview: redactMessageForTelemetry(message),
-    });
+    logChatToBigQuery(sid, message, reply).catch(() => {});
+    trackEvent("chat_success", { sessionId: sid, source: "gemini", responseLength: reply.length, intent, messagePreview: redactMessageForTelemetry(message) });
 
     res.json({ reply, sessionId: sid, source: "gemini" });
   } catch (error) {
-    console.warn("AI Quota/Overload hit — triggering safety fallback response");
     cloudLogger.error("Chat API Safety Fallback", { error: error.message });
-    
-    // FINAL SAFETY NET: If AI fails, return a smart local response
-    const fallbackReply = getFallbackResponse(message);
-    trackEvent("chat_safety_fallback", {
-      sessionId: sid,
-      source: "safety-fallback",
-      error: error.message,
-      messagePreview: redactMessageForTelemetry(message),
-    });
-    res.json({ 
-      reply: fallbackReply, 
-      sessionId: sid, 
-      source: "safety-fallback",
-      note: "API Busy - served from local knowledge" 
-    });
+    res.json({ reply: getFallbackResponse(message), sessionId: sid, source: "safety-fallback", note: "API Busy - served from local knowledge" });
   }
 });
 
 // ── Quiz API ─────────────────────────────────────────────────
+/**
+ * Handles POST requests to the quiz API endpoint.
+ * @param {Object} req - The Express request object.
+ * @param {Object} res - The Express response object.
+ * @returns {Promise<void>}
+ */
 app.post("/api/quiz", async (req, res) => {
   try {
     const { difficulty, topic } = req.body;
-    if (!model) return res.json(getFallbackQuiz());
+    if (!model) { return res.json(getFallbackQuiz()); }
 
     const result = await executeWithModelFallback((m) => {
       const quizModel = genAI.getGenerativeModel({
@@ -459,26 +524,25 @@ app.post("/api/quiz", async (req, res) => {
       return quizModel.generateContent(QUIZ_PROMPT(difficulty, topic));
     });
     const quiz = JSON.parse(result.response.text());
-    trackEvent("quiz_success", {
-      source: "gemini",
-      difficulty: difficulty || "medium",
-      topic: topic || "general",
-      questionCount: Array.isArray(quiz.questions) ? quiz.questions.length : 0,
-    });
+    trackEvent("quiz_success", { source: "gemini", difficulty: difficulty || "medium", topic: topic || "general", questionCount: Array.isArray(quiz.questions) ? quiz.questions.length : 0 });
     res.json(quiz);
   } catch (error) {
-    console.error("Quiz API Error:", error.message);
     cloudLogger.error("Quiz API Error", { error: error.message });
-    trackEvent("quiz_fallback", { source: "fallback", error: error.message });
     res.json(getFallbackQuiz());
   }
 });
 
 // ── Flashcard API ────────────────────────────────────────────
+/**
+ * Handles POST requests to the flashcards API endpoint.
+ * @param {Object} req - The Express request object.
+ * @param {Object} res - The Express response object.
+ * @returns {Promise<void>}
+ */
 app.post("/api/flashcards", async (req, res) => {
   try {
     const { topic } = req.body;
-    if (!model) return res.json(getFallbackFlashcards());
+    if (!model) { return res.json(getFallbackFlashcards()); }
 
     const result = await executeWithModelFallback((m) => {
       const flashModel = genAI.getGenerativeModel({
@@ -488,21 +552,20 @@ app.post("/api/flashcards", async (req, res) => {
       return flashModel.generateContent(FLASHCARD_PROMPT(topic));
     });
     const flashcards = JSON.parse(result.response.text());
-    trackEvent("flashcards_success", {
-      source: "gemini",
-      topic: topic || "general",
-      flashcardCount: Array.isArray(flashcards.flashcards) ? flashcards.flashcards.length : 0,
-    });
+    trackEvent("flashcards_success", { source: "gemini", topic: topic || "general", flashcardCount: Array.isArray(flashcards.flashcards) ? flashcards.flashcards.length : 0 });
     res.json(flashcards);
   } catch (error) {
-    console.error("Flashcard API Error:", error.message);
     cloudLogger.error("Flashcard API Error", { error: error.message });
-    trackEvent("flashcards_fallback", { source: "fallback", error: error.message });
     res.json(getFallbackFlashcards());
   }
 });
 
 // ── Fallback Data ────────────────────────────────────────────
+/**
+ * Returns a fallback response for common election queries.
+ * @param {string} message - The user message.
+ * @returns {string} The fallback response.
+ */
 function getFallbackResponse(message) {
   const msg = message.toLowerCase();
   
@@ -536,6 +599,10 @@ function getFallbackResponse(message) {
   return "🗳️ I'm **VoteMitra**, your election assistant! I can help you with Voter Registration, EVM/VVPAT info, NOTA, and more. Please ask a specific question about the Indian election process!";
 }
 
+/**
+ * Returns a fallback quiz data.
+ * @returns {Object} Quiz data.
+ */
 function getFallbackQuiz() {
   return {
     questions: [
@@ -548,6 +615,10 @@ function getFallbackQuiz() {
   };
 }
 
+/**
+ * Returns fallback flashcards data.
+ * @returns {Object} Flashcards data.
+ */
 function getFallbackFlashcards() {
   return {
     flashcards: [
@@ -563,6 +634,10 @@ function getFallbackFlashcards() {
   };
 }
 
+/**
+ * Generates a unique session identifier.
+ * @returns {string} The session ID.
+ */
 function generateSessionId() {
   return "sess_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 }
@@ -587,4 +662,15 @@ if (isMain) {
   });
 }
 
-export { app, validateChatMessage, redactMessageForTelemetry };
+export { 
+  app, 
+  validateChatMessage, 
+  redactMessageForTelemetry, 
+  getFallbackResponse, 
+  getFallbackQuiz, 
+  getFallbackFlashcards,
+  generateSessionId,
+  SYSTEM_PROMPT,
+  QUIZ_PROMPT,
+  FLASHCARD_PROMPT
+};

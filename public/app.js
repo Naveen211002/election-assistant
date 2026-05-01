@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
   tabNav.addEventListener("keydown", (e) => {
     const tabList = Array.from(tabs);
     const currentIndex = tabList.indexOf(document.activeElement);
-    if (currentIndex === -1) return;
+    if (currentIndex === -1) {return;}
     
     let newIndex;
     if (e.key === "ArrowRight" || e.key === "ArrowDown") {
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let sessionId = null;
 
   async function sendMessage(text) {
-    if (!text.trim()) return;
+    if (!text.trim()) {return;}
 
     // Add user message to UI
     appendMessage("user", text);
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
       
       if (data.reply) {
         appendMessage("bot", data.reply);
-        if (data.sessionId) sessionId = data.sessionId;
+        if (data.sessionId) {sessionId = data.sessionId;}
       } else {
         appendMessage("bot", "I'm sorry, I'm having trouble connecting right now. Please try again.");
       }
@@ -341,7 +341,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   // Initial flashcard load when tab clicked
   document.getElementById("tab-flashcards").addEventListener("click", () => {
-    if (flashcardGrid.children.length === 0) loadFlashcards();
+    if (flashcardGrid.children.length === 0) {loadFlashcards();}
   });
 
   // ── Particle Background ──────────────────────────────────
@@ -372,10 +372,10 @@ document.addEventListener("DOMContentLoaded", () => {
       p.x += p.speedX;
       p.y += p.speedY;
       
-      if (p.x < 0) p.x = canvas.width;
-      if (p.x > canvas.width) p.x = 0;
-      if (p.y < 0) p.y = canvas.height;
-      if (p.y > canvas.height) p.y = 0;
+      if (p.x < 0) {p.x = canvas.width;}
+      if (p.x > canvas.width) {p.x = 0;}
+      if (p.y < 0) {p.y = canvas.height;}
+      if (p.y > canvas.height) {p.y = 0;}
       
       ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
       ctx.beginPath();

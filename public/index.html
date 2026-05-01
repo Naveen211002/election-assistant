@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0a0e1a">
-  <meta name="description" content="VoteMitra - AI-Powered Election Process Education Assistant. Learn about Indian elections, voter registration, EVMs, and more.">
+  <meta name="description" content="Interactive election process assistant for Indian elections">
   <title>VoteMitra 🗳️ Election Education Assistant</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗳️</text></svg>">
 </head>
 <body>
-  <a href="#main-content" class="sr-only sr-only-focusable" id="skip-link">Skip to main content</a>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
   <!-- ═══ Animated Background ═══ -->
   <div class="bg-gradient"></div>
   <div class="bg-particles" id="particles"></div>
@@ -279,7 +279,7 @@
             </div>
           </div>
 
-          <div class="chat-messages" id="chat-messages" role="log" aria-live="polite" aria-label="Chat conversation">
+          <div class="chat-messages" id="chat-messages" role="log" aria-live="polite" aria-atomic="false" aria-label="Conversation history">
             <div class="message bot-message animate-in">
               <div class="message-avatar">🗳️</div>
               <div class="message-bubble">
@@ -306,8 +306,8 @@
           </div>
 
           <form class="chat-input-area" id="chat-form">
-            <label for="chat-input" class="sr-only">Type your election question</label>
-            <input type="text" id="chat-input" placeholder="Ask about Indian elections..." autocomplete="off" maxlength="500">
+            <label for="chat-input" class="sr-only">Ask about elections</label>
+            <input type="text" id="chat-input" placeholder="Ask about Indian elections..." autocomplete="off" maxlength="500" aria-label="Ask about elections">
             <button type="submit" id="chat-send" title="Send message" aria-label="Send message">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
             </button>
