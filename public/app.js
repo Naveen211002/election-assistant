@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // First, escape any raw HTML to prevent XSS
     const div = document.createElement('div');
     div.textContent = text;
-    let safeText = div.innerHTML;
+    const safeText = div.innerHTML;
 
     // Then, apply safe markdown-like formatting for bold and lists
     return safeText
