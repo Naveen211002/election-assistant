@@ -6,22 +6,22 @@
  * @returns {{intent: string, context: string}} An object containing the detected intent and a context summary.
  */
 function enrichPrompt(message) {
-  const msg = message.toLowerCase();
+  const msg = (message || "").toLowerCase();
   let intent = "general";
   let context = "General election inquiry.";
 
-  if (msg.includes("register")) {
+  if (msg.includes("register") || msg.includes("form 6")) {
     intent = "voter_registration";
-    context = "User wants to know how to register to vote.";
-  } else if (msg.includes("deadline")) {
-    intent = "deadlines";
-    context = "User is asking about election deadlines.";
-  } else if (msg.includes("candidate")) {
-    intent = "candidates";
-    context = "User wants information about candidates.";
-  } else if (msg.includes("poll") || msg.includes("booth")) {
-    intent = "polling_location";
-    context = "User is looking for polling booth information.";
+    context = "User is asking about the registration process, Form 6, and eligibility rules.";
+  } else if (msg.includes("evm") || msg.includes("vvpat") || msg.includes("machine")) {
+    intent = "voting_technology";
+    context = "User is inquiring about EVMs, VVPAT verification, and technical election integrity.";
+  } else if (msg.includes("nota") || msg.includes("none of the above")) {
+    intent = "nota_option";
+    context = "User wants to understand the NOTA (None of the Above) provision on the ballot.";
+  } else if (msg.includes("poll") || msg.includes("booth") || msg.includes("where")) {
+    intent = "polling_logistics";
+    context = "User is looking for polling station details, voting day procedures, or location finding.";
   }
 
   return { intent, context };
