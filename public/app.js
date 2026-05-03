@@ -143,7 +143,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function formatMarkdown(text) {
-    return text
+    // First, escape any raw HTML to prevent XSS
+    const div = document.createElement('div');
+    div.textContent = text;
+    let safeText = div.innerHTML;
+
+    // Then, apply safe markdown-like formatting for bold and lists
+    return safeText
       .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
       .replace(/\n/g, "<br>")
       .replace(/• (.*?)<br>/g, "<li>$1</li>")
