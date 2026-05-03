@@ -14,6 +14,23 @@ function getLog() {
 }
 
 /**
+ * Formats a log entry for consistent structured logging.
+ * 
+ * @param {string} severity - Log severity (INFO, ERROR, etc.).
+ * @param {string} message - Main log message.
+ * @param {Object} metadata - Additional structured data.
+ * @returns {Object} Formatted entry.
+ */
+function createEntry(severity, message, metadata) {
+  const logInstance = getLog();
+  // Ensure log is initialized via getLog()
+  return logInstance.entry(
+    { severity, ...metadata }, 
+    { message, service: "votemitra", timestamp: new Date().toISOString() }
+  );
+}
+
+/**
  * Structured logger that integrates with Google Cloud Logging.
  */
 export const logger = {
@@ -24,10 +41,10 @@ export const logger = {
    * @param {Object} [metadata={}] - Optional structured metadata.
    */
   info: (message, metadata = {}) => {
-    const logInstance = getLog();
-    const entry = logInstance.entry({ severity: "INFO", ...metadata }, { message, service: "votemitra" });
     if (config.NODE_ENV === 'production') {
-      log.write(entry).catch(console.error);
+      const logInstance = getLog();
+      const entry = createEntry("INFO", message, metadata);
+      logInstance.write(entry).catch(() => {});
     } else {
       console.log(JSON.stringify({ severity: "INFO", message, ...metadata }));
     }
@@ -40,10 +57,10 @@ export const logger = {
    * @param {Object} [metadata={}] - Optional structured metadata.
    */
   error: (message, metadata = {}) => {
-    const logInstance = getLog();
-    const entry = logInstance.entry({ severity: "ERROR", ...metadata }, { message, service: "votemitra" });
     if (config.NODE_ENV === 'production') {
-      log.write(entry).catch(console.error);
+      const logInstance = getLog();
+      const entry = createEntry("ERROR", message, metadata);
+      logInstance.write(entry).catch(() => {});
     } else {
       console.error(JSON.stringify({ severity: "ERROR", message, ...metadata }));
     }
@@ -56,10 +73,10 @@ export const logger = {
    * @param {Object} [metadata={}] - Optional structured metadata.
    */
   warn: (message, metadata = {}) => {
-    const logInstance = getLog();
-    const entry = logInstance.entry({ severity: "WARNING", ...metadata }, { message, service: "votemitra" });
     if (config.NODE_ENV === 'production') {
-      log.write(entry).catch(console.error);
+      const logInstance = getLog();
+      const entry = createEntry("WARNING", message, metadata);
+      logInstance.write(entry).catch(() => {});
     } else {
       console.warn(JSON.stringify({ severity: "WARNING", message, ...metadata }));
     }

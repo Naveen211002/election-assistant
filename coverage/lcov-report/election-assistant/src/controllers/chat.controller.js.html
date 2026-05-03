@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">67.34% </span>
+                <span class="strong">77.08% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>33/49</span>
+                <span class='fraction'>37/48</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/2</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">70.45% </span>
+                <span class="strong">78.72% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>31/44</span>
+                <span class='fraction'>37/47</span>
             </div>
         
             
@@ -161,9 +161,21 @@
 <a name='L96'></a><a href='#L96'>96</a>
 <a name='L97'></a><a href='#L97'>97</a>
 <a name='L98'></a><a href='#L98'>98</a>
-<a name='L99'></a><a href='#L99'>99</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -173,11 +185,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -210,18 +217,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -234,6 +229,23 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -264,7 +276,8 @@ import { logToBigQuery } from "../services/telemetry.service.js";
 import { logger } from "../services/logger.service.js";
 import { sanitize } from "../utils/sanitizer.js";
 import { enrichPrompt } from "../utils/enrichPrompt.js";
-import { getFallbackResponse } from "../utils/education.utils.js";
+import { getFallbackResponse, SYSTEM_PROMPT } from "../utils/education.utils.js";
+import { formatSSE, sleep } from "../utils/stream.utils.js";
 &nbsp;
 const chatSessions = new Map();
 &nbsp;
@@ -299,8 +312,8 @@ export const chatController = {
       logger.info("Chat Request", { sessionId: sid, intent });
 &nbsp;
       const history = chatSessions.get(sid) || [
-        { role: "user", parts: [{ text: `You are VoteMitra... ${context}` }] },
-        { role: "model", parts: [{ text: "Namaste!" }] }
+        { role: "user", parts: [{ text: `${SYSTEM_PROMPT()}\n\nINITIAL CONTEXT: ${context}` }] },
+        { role: "model", parts: [{ text: "Namaste! I am VoteMitra. How can I help you today?" }] }
       ];
 &nbsp;
       let fullReply = "";
@@ -308,34 +321,39 @@ export const chatController = {
       try {
         const stream = streamChatResponse(history, message);
         for await (const chunk of stream) {
-          const sanitizedChunk = sanitize(chunk);
-          fullReply += sanitizedChunk;
-          res.write(`data: ${JSON.stringify({ chunk: sanitizedChunk })}\n\n`);
-          <span class="missing-if-branch" title="else path not taken" >E</span>if (res.flush) {res.flush();}
+          const sanitizedChunk = <span class="cstat-no" title="statement not covered" >sanitize(chunk);</span>
+<span class="cstat-no" title="statement not covered" >          fullReply += sanitizedChunk;</span>
+<span class="cstat-no" title="statement not covered" >          res.write(formatSSE('message', { chunk: sanitizedChunk }));</span>
+<span class="cstat-no" title="statement not covered" >          if (res.flush) {</span>
+<span class="cstat-no" title="statement not covered" >            res.flush();</span>
+          }
         }
       } catch (aiError) {
-        // FALLBACK MECHANISM: If AI fails (rate limits, offline), use local fallback
-<span class="cstat-no" title="statement not covered" >        logger.warn("AI Model unavailable, using local fallback", { error: aiError.message });</span>
-        const fallbackReply = <span class="cstat-no" title="statement not covered" >getFallbackResponse(message);</span>
-<span class="cstat-no" title="statement not covered" >        fullReply = sanitize(fallbackReply);</span>
+        // FALLBACK: Use local expert data if AI model is exhausted
+        logger.warn("AI Model unavailable, using local fallback", { error: aiError.message });
+        const fallbackReply = getFallbackResponse(message);
+        fullReply = sanitize(fallbackReply);
         
-        // Simulate streaming for the fallback response
-        const words = <span class="cstat-no" title="statement not covered" >fullReply.split(" ");</span>
-<span class="cstat-no" title="statement not covered" >        for (const word of words) {</span>
-<span class="cstat-no" title="statement not covered" >          res.write(`data: ${JSON.stringify({ chunk: word + " " })}\n\n`);</span>
-<span class="cstat-no" title="statement not covered" >          if (res.flush) {<span class="cstat-no" title="statement not covered" >res.flush();}</span></span>
-<span class="cstat-no" title="statement not covered" >          await new Promise(<span class="fstat-no" title="function not covered" >r </span>=&gt; <span class="cstat-no" title="statement not covered" >setTimeout(r, 20))</span>; </span>// slight delay for stream effect
+        const words = fullReply.split(" ");
+        for (const word of words) {
+          res.write(formatSSE('message', { chunk: word + " " }));
+          <span class="missing-if-branch" title="else path not taken" >E</span>if (res.flush) {
+            res.flush();
+          }
+          await sleep(20);
         }
       }
 &nbsp;
-      // Update session history
+      res.write(formatSSE('done'));
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (res.flush) {
+        res.flush();
+      }
+      res.end();
+&nbsp;
+      // Update session history for conversational memory
       history.push({ role: "user", parts: [{ text: message }] });
       history.push({ role: "model", parts: [{ text: fullReply }] });
       chatSessions.set(sid, history.slice(-10)); // Keep last 10 turns
-&nbsp;
-      res.write(`data: [DONE]\n\n`);
-      <span class="missing-if-branch" title="else path not taken" >E</span>if (res.flush) {res.flush();}
-      res.end();
 &nbsp;
       // Background telemetry
       const latencyMs = Date.now() - startTime;
@@ -364,7 +382,7 @@ export const chatController = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-03T14:06:14.926Z
+                at 2026-05-03T14:46:59.113Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

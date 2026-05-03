@@ -27,6 +27,17 @@ async function initClient() {
   return genAI;
 }
 
+const DEFAULT_GENERATION_CONFIG = {
+  maxOutputTokens: 1024,
+  temperature: 0.7,
+  topP: 0.9,
+};
+
+const JSON_GENERATION_CONFIG = {
+  responseMimeType: "application/json",
+  temperature: 0.8,
+};
+
 /**
  * Executes a Gemini API call with model fallback logic.
  */
@@ -38,11 +49,7 @@ async function executeWithModelFallback(buildApiCall) {
     try {
       const model = genAI.getGenerativeModel({ 
         model: modelName,
-        generationConfig: {
-          maxOutputTokens: 1024,
-          temperature: 0.7,
-          topP: 0.9,
-        }
+        generationConfig: DEFAULT_GENERATION_CONFIG
       });
       
       const result = await buildApiCall(model, modelName);
@@ -108,10 +115,7 @@ export async function generateJsonContent(prompt) {
     const result = await executeWithModelFallback(async (model) => {
       const jsonModel = genAI.getGenerativeModel({
         model: model.model,
-        generationConfig: {
-          responseMimeType: "application/json",
-          temperature: 0.8,
-        }
+        generationConfig: JSON_GENERATION_CONFIG
       });
       return await jsonModel.generateContent({
         contents: [{ role: 'user', parts: [{ text: prompt }] }]

@@ -37,6 +37,7 @@ export function createApp() {
     hsts: { maxAge: 31536000, includeSubDomains: true },
     referrerPolicy: { policy: "strict-origin-when-cross-origin" },
     xssFilter: true,
+    frameguard: { action: 'deny' },
   }));
 
   app.disable('x-powered-by');

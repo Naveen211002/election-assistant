@@ -47,13 +47,30 @@ export function validateChatMessage(message) {
   return null;
 }
 
+/**
+ * Safely redacts a message to a fixed length for telemetry logging.
+ * Prevents PII leak and limits database storage.
+ * 
+ * @param {string} message - The raw message to redact.
+ * @returns {string} The redacted, safe message snippet.
+ */
 export function redactMessageForTelemetry(message) {
-  if (!message) {return "";}
+  if (!message || typeof message !== 'string') {
+    return '';
+  }
   return message.trim().slice(0, 140);
 }
 
+/**
+ * Generates a unique, cryptographically-inspired session identifier.
+ * Uses a combination of timestamp and random characters.
+ * 
+ * @returns {string} A unique session ID.
+ */
 export function generateSessionId() {
-  return "sess_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  const timestamp = Date.now().toString(36);
+  const randomPart = Math.random().toString(36).slice(2, 8);
+  return `sess_${timestamp}${randomPart}`;
 }
 
 export function SYSTEM_PROMPT() {

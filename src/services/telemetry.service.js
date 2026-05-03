@@ -5,20 +5,21 @@ import { logger } from "./logger.service.js";
 let bigquery = null;
 
 /**
- * Logs interaction telemetry to Google BigQuery.
+ * Logs interaction telemetry to Google BigQuery for analytics and accuracy evaluation.
+ * Implements safe truncation and background logging.
  * 
  * @param {Object} data - The telemetry data object.
  * @param {string} data.sessionId - Unique session identifier.
  * @param {string} data.userMessage - The raw user message.
  * @param {string} data.modelReply - The AI's response.
  * @param {string} data.intent - The detected intent.
- * @param {number} [data.latencyMs] - The time taken to respond.
- * @param {number} [data.tokens] - The number of tokens used.
- * @param {string} [data.feedback] - User feedback if any.
+ * @param {number} [data.latencyMs] - Response time in ms.
+ * @param {number} [data.tokens] - Token usage.
  * @returns {Promise<void>}
  */
 export async function logToBigQuery(data) {
-  if (config.NODE_ENV !== 'production') {
+  // Only log in production or explicit test environments
+  if (config.NODE_ENV !== 'production' && config.NODE_ENV !== 'test') {
     return;
   }
   

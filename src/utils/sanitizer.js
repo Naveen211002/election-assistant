@@ -12,8 +12,11 @@ try {
     DOMPurify = createDOMPurify(window);
   }
 } catch (e) {
-  // Fallback for Jest if JSDOM fails
-  DOMPurify = { sanitize: (str) => str };
+  // Fallback for restricted environments: simple tag stripping
+  DOMPurify = { 
+    sanitize: (str) => str.replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gim, "")
+                          .replace(/on\w+="[^"]*"/gim, "")
+  };
 }
 
 /**
