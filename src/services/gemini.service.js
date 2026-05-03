@@ -74,9 +74,10 @@ async function executeWithModelFallback(buildApiCall) {
 
 /**
  * Streams a chat response from Gemini.
- * @param {Array} history - Chat history.
- * @param {string} message - User message.
- * @returns {AsyncGenerator} The stream of responses.
+ * 
+ * @param {Array<Object>} history - The chat history.
+ * @param {string} message - The user's new message.
+ * @yields {string} Chunks of the AI response.
  */
 export async function* streamChatResponse(history, message) {
   try {
@@ -97,8 +98,9 @@ export async function* streamChatResponse(history, message) {
 }
 
 /**
- * Generates JSON content (for quizzes/flashcards).
- * @param {string} prompt - The prompt.
+ * Generates structured JSON content using Gemini.
+ * 
+ * @param {string} prompt - The prompt for the AI.
  * @returns {Promise<Object>} The parsed JSON response.
  */
 export async function generateJsonContent(prompt) {

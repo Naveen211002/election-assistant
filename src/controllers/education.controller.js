@@ -9,9 +9,13 @@ const cache = new NodeCache({ stdTTL: 3600 }); // 1 hour cache
  * Quiz & Flashcard Controller
  */
 export const educationController = {
-  /**
-   * Generates or fetches quiz from cache.
-   */
+/**
+ * Fetches a quiz from cache or generates it using AI.
+ * 
+ * @param {import('express').Request} req - The Express request object.
+ * @param {import('express').Response} res - The Express response object.
+ * @returns {Promise<void>}
+ */
   getQuiz: async (req, res) => {
     const { difficulty, topic } = req.body;
     const cacheKey = `quiz_${difficulty || 'med'}_${topic || 'gen'}`;
@@ -33,9 +37,13 @@ export const educationController = {
     }
   },
 
-  /**
-   * Generates or fetches flashcards from cache.
-   */
+/**
+ * Fetches educational flashcards from cache or generates them using AI.
+ * 
+ * @param {import('express').Request} req - The Express request object.
+ * @param {import('express').Response} res - The Express response object.
+ * @returns {Promise<void>}
+ */
   getFlashcards: async (req, res) => {
     const { topic } = req.body;
     const cacheKey = `flash_${topic || 'gen'}`;

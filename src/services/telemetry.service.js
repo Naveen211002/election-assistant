@@ -8,8 +8,21 @@ let bigquery = null;
  * Logs interaction data to BigQuery.
  * @param {Object} data - Telemetry data.
  */
+/**
+ * Logs interaction telemetry to Google BigQuery.
+ * 
+ * @param {Object} data - The telemetry data object.
+ * @param {string} data.sessionId - Unique session identifier.
+ * @param {string} data.userMessage - The raw user message.
+ * @param {string} data.modelReply - The AI's response.
+ * @param {string} data.intent - The detected intent.
+ * @param {number} data.latencyMs - The time taken to respond.
+ * @returns {Promise<void>}
+ */
 export async function logToBigQuery(data) {
-  if (config.NODE_ENV !== 'production') {return;} // Disable local BigQuery to prevent auth crashes
+  if (config.NODE_ENV !== 'production') {
+    return;
+  }
   
   try {
     if (!bigquery) {

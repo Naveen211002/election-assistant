@@ -12,7 +12,12 @@ const chatSessions = new Map();
  */
 export const chatController = {
   /**
-   * Handles chat requests with streaming.
+   * Handles interactive chat requests using Server-Sent Events (SSE).
+   * Implements an AI-first strategy with a robust local fallback.
+   * 
+   * @param {import('express').Request} req - The Express request object.
+   * @param {import('express').Response} res - The Express response object.
+   * @returns {Promise<void>}
    */
   handleChat: async (req, res) => {
     const { message, sessionId } = req.body;
