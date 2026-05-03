@@ -31,7 +31,7 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'"], // unsafe-inline for particles.js/logic
+      scriptSrc: ["'self'"], 
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
       imgSrc: ["'self'", "data:", "https://fonts.gstatic.com"],
       connectSrc: ["'self'"],
