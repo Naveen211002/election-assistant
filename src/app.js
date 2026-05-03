@@ -20,6 +20,12 @@ export function createApp() {
   const app = express();
   app.set('trust proxy', 1);
 
+  // -- Constants --
+  const HSTS_MAX_AGE = 31536000;
+  const JSON_BODY_LIMIT = '1mb';
+  const RATE_LIMIT_WINDOW = 15 * 60 * 1000; // 15 minutes
+  const RATE_LIMIT_MAX = 100;
+
   // -- Security Middleware --
   app.use(helmet({
     contentSecurityPolicy: {
@@ -34,7 +40,7 @@ export function createApp() {
         objectSrc: ["'none'"],
       },
     },
-    hsts: { maxAge: 31536000, includeSubDomains: true },
+    hsts: { maxAge: HSTS_MAX_AGE, includeSubDomains: true },
     referrerPolicy: { policy: "strict-origin-when-cross-origin" },
     xssFilter: true,
     frameguard: { action: 'deny' },
@@ -62,12 +68,12 @@ export function createApp() {
   }));
 
   app.use(compression());
-  app.use(express.json({ limit: '1mb' }));
+  app.use(express.json({ limit: JSON_BODY_LIMIT }));
 
   // -- Rate Limiting --
   const apiLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100,
+    windowMs: RATE_LIMIT_WINDOW,
+    max: RATE_LIMIT_MAX,
     message: 'Too many requests from this IP, please try again later.',
     standardHeaders: true,
     legacyHeaders: false,

@@ -27,15 +27,25 @@ async function initClient() {
   return genAI;
 }
 
+/** @constant {number} The maximum number of tokens to generate in a single response. */
+const MAX_OUTPUT_TOKENS = 1024;
+/** @constant {number} The temperature setting for AI creativity (0.0 to 1.0). */
+const AI_TEMPERATURE = 0.7;
+/** @constant {number} The Top-P setting for AI nucleus sampling. */
+const AI_TOP_P = 0.9;
+
 const DEFAULT_GENERATION_CONFIG = {
-  maxOutputTokens: 1024,
-  temperature: 0.7,
-  topP: 0.9,
+  maxOutputTokens: MAX_OUTPUT_TOKENS,
+  temperature: AI_TEMPERATURE,
+  topP: AI_TOP_P,
 };
+
+/** @constant {number} The temperature setting for JSON generation tasks. */
+const JSON_TEMPERATURE = 0.8;
 
 const JSON_GENERATION_CONFIG = {
   responseMimeType: "application/json",
-  temperature: 0.8,
+  temperature: JSON_TEMPERATURE,
 };
 
 /**

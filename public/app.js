@@ -325,8 +325,9 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // Score circle animation
     const circle = document.getElementById("score-fill");
+    const SCORE_CIRCLE_CIRCUMFERENCE = 339.29;
     const pct = score / currentQuiz.length;
-    const offset = 339.29 * (1 - pct);
+    const offset = SCORE_CIRCLE_CIRCUMFERENCE * (1 - pct);
     circle.style.strokeDashoffset = offset;
 
     const resultsTitle = document.getElementById("results-title");
@@ -421,19 +422,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const ctx = canvas.getContext("2d");
   document.getElementById("particles").appendChild(canvas);
 
+  /** @constant {number} Number of particles in the background animation. */
+  const PARTICLE_COUNT = 50;
+  /** @constant {number} Maximum speed of particles. */
+  const MAX_PARTICLE_SPEED = 0.5;
+
   let particles = [];
   function initParticles() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     particles = [];
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
         size: Math.random() * 2 + 1,
-        speedX: Math.random() * 0.5 - 0.25,
-        speedY: Math.random() * 0.5 - 0.25,
-        opacity: Math.random() * 0.5
+        speedX: Math.random() * MAX_PARTICLE_SPEED - (MAX_PARTICLE_SPEED / 2),
+        speedY: Math.random() * MAX_PARTICLE_SPEED - (MAX_PARTICLE_SPEED / 2),
+        opacity: Math.random() * MAX_PARTICLE_SPEED
       });
     }
   }
