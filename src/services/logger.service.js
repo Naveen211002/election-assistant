@@ -17,6 +17,12 @@ function getLog() {
  * Structured logger that integrates with Google Cloud Logging.
  */
 export const logger = {
+  /**
+   * Logs an informational message.
+   * 
+   * @param {string} message - The message to log.
+   * @param {Object} [metadata={}] - Optional structured metadata.
+   */
   info: (message, metadata = {}) => {
     const logInstance = getLog();
     const entry = logInstance.entry({ severity: "INFO", ...metadata }, { message, service: "votemitra" });
@@ -26,6 +32,13 @@ export const logger = {
       console.log(JSON.stringify({ severity: "INFO", message, ...metadata }));
     }
   },
+
+  /**
+   * Logs an error message.
+   * 
+   * @param {string} message - The error message.
+   * @param {Object} [metadata={}] - Optional structured metadata.
+   */
   error: (message, metadata = {}) => {
     const logInstance = getLog();
     const entry = logInstance.entry({ severity: "ERROR", ...metadata }, { message, service: "votemitra" });
@@ -35,6 +48,13 @@ export const logger = {
       console.error(JSON.stringify({ severity: "ERROR", message, ...metadata }));
     }
   },
+
+  /**
+   * Logs a warning message.
+   * 
+   * @param {string} message - The warning message.
+   * @param {Object} [metadata={}] - Optional structured metadata.
+   */
   warn: (message, metadata = {}) => {
     const logInstance = getLog();
     const entry = logInstance.entry({ severity: "WARNING", ...metadata }, { message, service: "votemitra" });

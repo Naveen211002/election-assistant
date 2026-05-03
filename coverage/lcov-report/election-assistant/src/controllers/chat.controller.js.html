@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.55% </span>
+                <span class="strong">67.34% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>38/49</span>
+                <span class='fraction'>33/49</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">79.54% </span>
+                <span class="strong">70.45% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>35/44</span>
+                <span class='fraction'>31/44</span>
             </div>
         
             
@@ -168,12 +168,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -210,23 +210,23 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -308,23 +308,23 @@ export const chatController = {
       try {
         const stream = streamChatResponse(history, message);
         for await (const chunk of stream) {
-          const sanitizedChunk = <span class="cstat-no" title="statement not covered" >sanitize(chunk);</span>
-<span class="cstat-no" title="statement not covered" >          fullReply += sanitizedChunk;</span>
-<span class="cstat-no" title="statement not covered" >          res.write(`data: ${JSON.stringify({ chunk: sanitizedChunk })}\n\n`);</span>
-<span class="cstat-no" title="statement not covered" >          if (res.flush) {<span class="cstat-no" title="statement not covered" >res.flush();}</span></span>
+          const sanitizedChunk = sanitize(chunk);
+          fullReply += sanitizedChunk;
+          res.write(`data: ${JSON.stringify({ chunk: sanitizedChunk })}\n\n`);
+          <span class="missing-if-branch" title="else path not taken" >E</span>if (res.flush) {res.flush();}
         }
       } catch (aiError) {
         // FALLBACK MECHANISM: If AI fails (rate limits, offline), use local fallback
-        logger.warn("AI Model unavailable, using local fallback", { error: aiError.message });
-        const fallbackReply = getFallbackResponse(message);
-        fullReply = sanitize(fallbackReply);
+<span class="cstat-no" title="statement not covered" >        logger.warn("AI Model unavailable, using local fallback", { error: aiError.message });</span>
+        const fallbackReply = <span class="cstat-no" title="statement not covered" >getFallbackResponse(message);</span>
+<span class="cstat-no" title="statement not covered" >        fullReply = sanitize(fallbackReply);</span>
         
         // Simulate streaming for the fallback response
-        const words = fullReply.split(" ");
-        for (const word of words) {
-          res.write(`data: ${JSON.stringify({ chunk: word + " " })}\n\n`);
-          <span class="missing-if-branch" title="else path not taken" >E</span>if (res.flush) {res.flush();}
-          await new Promise(r =&gt; setTimeout(r, 20)); // slight delay for stream effect
+        const words = <span class="cstat-no" title="statement not covered" >fullReply.split(" ");</span>
+<span class="cstat-no" title="statement not covered" >        for (const word of words) {</span>
+<span class="cstat-no" title="statement not covered" >          res.write(`data: ${JSON.stringify({ chunk: word + " " })}\n\n`);</span>
+<span class="cstat-no" title="statement not covered" >          if (res.flush) {<span class="cstat-no" title="statement not covered" >res.flush();}</span></span>
+<span class="cstat-no" title="statement not covered" >          await new Promise(<span class="fstat-no" title="function not covered" >r </span>=&gt; <span class="cstat-no" title="statement not covered" >setTimeout(r, 20))</span>; </span>// slight delay for stream effect
         }
       }
 &nbsp;
@@ -364,7 +364,7 @@ export const chatController = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-03T13:20:31.104Z
+                at 2026-05-03T14:01:20.736Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -10,8 +10,8 @@
   --accent-2: #0EA5E9; /* Vibrant Light Blue */
   --accent-3: #8B5CF6; /* Vibrant Violet */
   --text-primary: #F8FAFC;
-  --text-secondary: #94A3B8;
-  --text-muted: #475569;
+  --text-secondary: #CBD5E1; /* Higher contrast */
+  --text-muted: #94A3B8; /* Higher contrast */
   --success: #10B981;
   --danger: #EF4444;
   --warning: #F59E0B;

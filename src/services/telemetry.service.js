@@ -5,10 +5,6 @@ import { logger } from "./logger.service.js";
 let bigquery = null;
 
 /**
- * Logs interaction data to BigQuery.
- * @param {Object} data - Telemetry data.
- */
-/**
  * Logs interaction telemetry to Google BigQuery.
  * 
  * @param {Object} data - The telemetry data object.
@@ -16,7 +12,9 @@ let bigquery = null;
  * @param {string} data.userMessage - The raw user message.
  * @param {string} data.modelReply - The AI's response.
  * @param {string} data.intent - The detected intent.
- * @param {number} data.latencyMs - The time taken to respond.
+ * @param {number} [data.latencyMs] - The time taken to respond.
+ * @param {number} [data.tokens] - The number of tokens used.
+ * @param {string} [data.feedback] - User feedback if any.
  * @returns {Promise<void>}
  */
 export async function logToBigQuery(data) {

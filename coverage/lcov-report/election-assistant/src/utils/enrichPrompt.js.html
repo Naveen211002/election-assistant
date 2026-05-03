@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/16</span>
+                <span class='fraction'>8/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>6/10</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>16/16</span>
+                <span class='fraction'>8/16</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -101,52 +101,52 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
- * Simulated Cloud Function logic for prompt enrichment.
- * Performs intent detection on user messages to provide richer context to the AI.
+ * Analyzes the user's message to detect intent and provide relevant educational context.
+ * This simulates a context-enrichment layer for the AI.
  * 
- * @param {string} message - The user's input message.
- * @returns {Object} An object containing the detected intent and helpful context.
+ * @param {string} message - The raw user input message.
+ * @returns {{intent: string, context: string}} An object containing the detected intent and a context summary.
  */
 function enrichPrompt(message) {
   const msg = message.toLowerCase();
   let intent = "general";
   let context = "General election inquiry.";
 &nbsp;
-  if (msg.includes("register")) {
-    intent = "voter_registration";
-    context = "User wants to know how to register to vote.";
-  } else if (msg.includes("deadline")) {
-    intent = "deadlines";
-    context = "User is asking about election deadlines.";
-  } else if (msg.includes("candidate")) {
-    intent = "candidates";
-    context = "User wants information about candidates.";
-  } else if (msg.includes("poll") || msg.includes("booth")) {
-    intent = "polling_location";
-    context = "User is looking for polling booth information.";
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (msg.includes("register")) {
+<span class="cstat-no" title="statement not covered" >    intent = "voter_registration";</span>
+<span class="cstat-no" title="statement not covered" >    context = "User wants to know how to register to vote.";</span>
+  } else <span class="missing-if-branch" title="if path not taken" >I</span>if (msg.includes("deadline")) {
+<span class="cstat-no" title="statement not covered" >    intent = "deadlines";</span>
+<span class="cstat-no" title="statement not covered" >    context = "User is asking about election deadlines.";</span>
+  } else <span class="missing-if-branch" title="if path not taken" >I</span>if (msg.includes("candidate")) {
+<span class="cstat-no" title="statement not covered" >    intent = "candidates";</span>
+<span class="cstat-no" title="statement not covered" >    context = "User wants information about candidates.";</span>
+  } else <span class="missing-if-branch" title="if path not taken" >I</span>if (msg.includes("poll") || msg.includes("booth")) {
+<span class="cstat-no" title="statement not covered" >    intent = "polling_location";</span>
+<span class="cstat-no" title="statement not covered" >    context = "User is looking for polling booth information.";</span>
   }
 &nbsp;
   return { intent, context };
@@ -160,7 +160,7 @@ export { enrichPrompt };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-03T13:20:31.104Z
+                at 2026-05-03T14:01:20.736Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

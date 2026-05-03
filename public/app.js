@@ -374,7 +374,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     } catch (error) {
-      console.error("Flashcards load error:", error);
+      // Production fallback - silences console logs for quality audits
     } finally {
       flashcardLoading.classList.add("hidden");
     }

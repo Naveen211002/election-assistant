@@ -1,9 +1,9 @@
 /**
- * Simulated Cloud Function logic for prompt enrichment.
- * Performs intent detection on user messages to provide richer context to the AI.
+ * Analyzes the user's message to detect intent and provide relevant educational context.
+ * This simulates a context-enrichment layer for the AI.
  * 
- * @param {string} message - The user's input message.
- * @returns {Object} An object containing the detected intent and helpful context.
+ * @param {string} message - The raw user input message.
+ * @returns {{intent: string, context: string}} An object containing the detected intent and a context summary.
  */
 function enrichPrompt(message) {
   const msg = message.toLowerCase();

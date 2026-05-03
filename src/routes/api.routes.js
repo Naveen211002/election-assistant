@@ -7,7 +7,12 @@ import { config } from "../config/config.js";
 const router = express.Router();
 
 /**
- * Middleware to handle validation errors.
+ * Middleware to handle express-validator errors.
+ * 
+ * @param {import('express').Request} req - The Express request object.
+ * @param {import('express').Response} res - The Express response object.
+ * @param {import('express').NextFunction} next - The next middleware function.
+ * @returns {void|import('express').Response}
  */
 const validate = (req, res, next) => {
   const errors = validationResult(req);

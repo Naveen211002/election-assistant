@@ -17,12 +17,16 @@ try {
 }
 
 /**
- * Sanitizes a string to prevent XSS.
- * @param {string} text - The text to sanitize.
- * @returns {string} Sanitized text.
+ * Sanitizes a string to prevent XSS using DOMPurify.
+ * Handles non-string inputs gracefully.
+ * 
+ * @param {string} text - The raw text to sanitize.
+ * @returns {string} The sanitized, safe string.
  */
 export function sanitize(text) {
-  if (typeof text !== 'string') {return '';}
+  if (typeof text !== 'string') {
+    return '';
+  }
   return DOMPurify.sanitize(text);
 }
 
