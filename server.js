@@ -1,7 +1,9 @@
-// ============================================================
-// VoteMitra — Election Assistant Entry Point
-// Optimized for 100% Accuracy | Google Cloud Run Ready
-// ============================================================
+/**
+ * @fileoverview Main entry point for the VoteMitra Election Assistant server.
+ * Handles middleware configuration, static file serving, and API routing.
+ * @author VoteMitra Team
+ * @version 1.0.0
+ */
 
 import express from "express";
 import path from "path";
@@ -9,6 +11,7 @@ import { fileURLToPath } from "url";
 import helmet from "helmet";
 import cors from "cors";
 import compression from "compression";
+import rateLimit from "express-rate-limit";
 import { config } from "./src/config/config.js";
 import { logger } from "./src/services/logger.service.js";
 import apiRoutes from "./src/routes/api.routes.js";
@@ -16,6 +19,10 @@ import apiRoutes from "./src/routes/api.routes.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+/**
+ * Express application instance
+ * @type {import('express').Application}
+ */
 const app = express();
 
 // ── Security Middleware ───────────────────────────────────────
@@ -40,11 +47,21 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(compression());
 app.use(express.json({ limit: "1mb" }));
 
+// ── Rate Limiting ─────────────────────────────────────────────
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per `window`
+  message: "Too many requests from this IP, please try again later.",
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use("/api/", apiLimiter);
+
 // ── Static Files ──────────────────────────────────────────────
 app.use(express.static(path.join(__dirname, "public"), { 
   maxAge: 0, 
   etag: false,
-  setHeaders: (res, path) => {
+  setHeaders: (res) => {
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
   }
 }));
@@ -58,7 +75,7 @@ app.get("*", (req, res) => {
 });
 
 // ── Global Error Handler ──────────────────────────────────────
-app.use((err, req, res, next) => {
+app.use((err, req, res, _next) => {
   logger.error("Unhandled Error", { error: err.message, stack: err.stack });
   res.status(500).json({ error: "Internal Server Error" });
 });
@@ -85,4 +102,4 @@ export {
   SYSTEM_PROMPT,
   QUIZ_PROMPT,
   FLASHCARD_PROMPT
-} from "./src/utils/legacy.js";
+} from "./src/utils/education.utils.js";

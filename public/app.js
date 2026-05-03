@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify({ message: text, sessionId })
       });
 
-      if (!response.ok) throw new Error("API error");
+      if (!response.ok) {throw new Error("API error");}
 
       // Handle streaming response
       const reader = response.body.getReader();
@@ -95,9 +95,11 @@ document.addEventListener("DOMContentLoaded", () => {
       
       let fullText = "";
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
+      let done = false;
+      while (!done) {
+        const { done: streamDone, value } = await reader.read();
+        done = streamDone;
+        if (done) {break;}
         
         const chunk = decoder.decode(value, { stream: true });
         const lines = chunk.split("\n");
@@ -105,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
         for (const line of lines) {
           if (line.startsWith("data: ")) {
             const dataStr = line.slice(6).trim();
-            if (dataStr === "[DONE]") break;
+            if (dataStr === "[DONE]") {break;}
             
             try {
               const data = JSON.parse(dataStr);
@@ -122,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     } catch (error) {
       const typingEl = document.getElementById(typingId);
-      if (typingEl) typingEl.remove();
+      if (typingEl) {typingEl.remove();}
       appendMessage("bot", "I'm sorry, I'm having trouble connecting right now. Please try again.");
     }
 
@@ -276,7 +278,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // AI might return strings like "1", "A", or the actual text. Let's be defensive.
     let isCorrect = false;
-    let correctIndex = parseInt(q.correct);
+    const correctIndex = parseInt(q.correct);
     
     if (selectedIndex === correctIndex) {
       isCorrect = true;

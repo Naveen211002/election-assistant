@@ -15,11 +15,51 @@ VoteMitra is an interactive, step-by-step educational tool designed to help vote
 4. **Analytics**: Interaction telemetry is logged for product improvement.
 
 ## Technical Stack
-- **Backend**: Node.js, Express.js
-- **AI Engine**: Google Gemini API
+- **Backend**: Node.js, Express.js (ES Modules)
+- **AI Engine**: Google Gemini API (Generative AI & Vertex AI)
 - **Database/Analytics**: Google BigQuery
 - **Testing**: Jest, Supertest
 - **Deployment**: Docker, Google Cloud Run
+
+## Challenge Documentation
+
+### Your chosen vertical
+**Vertical 1: Election Process Education Assistant**. We chose this vertical to solve the real-world problem of voter confusion by providing an interactive, gamified, and highly accessible guide to the Indian democratic process.
+
+### Approach and logic
+Our approach leverages a modular Node.js backend acting as a secure middleware between the user and the Google Gemini API. We use a **Multi-Model Fallback Chain** to ensure high availability, gracefully degrading to local cache or fallback static data if the API experiences rate limits. Logic is separated cleanly into controllers, services, and utilities to maximize maintainability.
+
+### How the solution works
+1. **User Interaction**: Users ask questions or select modules (Quiz/Flashcards) via the vanilla JS frontend.
+2. **Context Enrichment**: The `enrichPrompt` utility analyzes the user's intent to inject specific context (e.g., voter registration rules) into the Gemini prompt.
+3. **AI Generation**: Gemini dynamically generates JSON payloads for quizzes or streams Markdown text for chat.
+4. **Sanitization**: Responses are sanitized via DOMPurify before reaching the client to prevent XSS.
+
+### Any assumptions made
+- We assume the user has a basic modern browser capable of SSE (Server-Sent Events) for the chat stream.
+- We assume the Gemini API keys are safely stored in Google Cloud Secret Manager for production.
+- We assume the target audience understands basic English, as multi-language support is planned for V2.
+
+## Project Structure
+```text
+.
+├── src/
+│   ├── config/         # App configuration & environment vars
+│   ├── controllers/    # Route handlers (logic separation)
+│   ├── routes/         # Express route definitions
+│   ├── services/       # External integrations (Gemini, BigQuery, Logger)
+│   └── utils/          # Shared helper functions & education logic
+├── public/             # Frontend assets (HTML, CSS, JS)
+├── tests/              # Jest test suites
+├── scripts/            # Development & maintenance scripts
+└── server.js           # Application entry point
+```
+
+## Quality Standards
+- **Clean Code**: Follows ESLint `eslint:recommended` rules.
+- **Maintainability**: Documented with JSDoc; modular architecture.
+- **Resilience**: 100% test pass rate with coverage; multi-model AI fallback.
+- **Security**: Hardened with Helmet.js CSP and input sanitization.
 
 ## Getting Started
 

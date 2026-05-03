@@ -2,8 +2,8 @@ import { streamChatResponse } from "../services/gemini.service.js";
 import { logToBigQuery } from "../services/telemetry.service.js";
 import { logger } from "../services/logger.service.js";
 import { sanitize } from "../utils/sanitizer.js";
-import { enrichPrompt } from "../../enrichPrompt.js";
-import { getFallbackResponse } from "../utils/legacy.js";
+import { enrichPrompt } from "../utils/enrichPrompt.js";
+import { getFallbackResponse } from "../utils/education.utils.js";
 
 const chatSessions = new Map();
 

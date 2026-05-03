@@ -9,7 +9,7 @@ const bigquery = new BigQuery({ projectId: config.GCP_PROJECT_ID });
  * @param {Object} data - Telemetry data.
  */
 export async function logToBigQuery(data) {
-  if (config.NODE_ENV !== 'production') return; // Disable local BigQuery to prevent auth crashes
+  if (config.NODE_ENV !== 'production') {return;} // Disable local BigQuery to prevent auth crashes
   
   try {
     const dataset = bigquery.dataset(config.BIGQUERY_DATASET);

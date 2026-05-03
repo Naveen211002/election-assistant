@@ -22,7 +22,7 @@ try {
  * @returns {string} Sanitized text.
  */
 export function sanitize(text) {
-  if (typeof text !== 'string') return '';
+  if (typeof text !== 'string') {return '';}
   return DOMPurify.sanitize(text);
 }
 

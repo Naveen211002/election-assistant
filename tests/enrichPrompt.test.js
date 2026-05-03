@@ -1,4 +1,4 @@
-import { enrichPrompt } from '../enrichPrompt.js';
+import { enrichPrompt } from '../src/utils/enrichPrompt.js';
 
 describe('Enrich Prompt Module', () => {
   test('detects voter_registration intent', () => {

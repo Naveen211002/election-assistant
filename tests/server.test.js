@@ -23,13 +23,15 @@ jest.unstable_mockModule('@google/generative-ai', () => ({
 const { app } = await import('../server.js');
 
 describe('Election Assistant API', () => {
-  test('POST /api/chat with valid message returns 200', async () => {
+  test('POST /api/chat with valid message returns 200 and streams response', async () => {
     const res = await request(app)
       .post('/api/chat')
       .send({ message: 'How do I register to vote?', sessionId: 'test-session' });
     
     expect(res.status).toBe(200);
-    expect(res.body).toHaveProperty('reply');
+    expect(res.headers['content-type']).toMatch(/event-stream/);
+    expect(res.text).toContain('data:');
+    expect(res.text).toContain('[DONE]');
   });
 
   test('POST /api/chat with empty message returns 400', async () => {

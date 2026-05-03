@@ -15,7 +15,7 @@ const MODEL_CHAIN = [
  * Initializes the Gemini AI client.
  */
 async function initClient() {
-  if (genAI) return genAI;
+  if (genAI) {return genAI;}
 
   const apiKey = await config.getGeminiKey();
   if (!apiKey) {
