@@ -5,9 +5,9 @@ import { logger } from "./logger.service.js";
 let genAI;
 
 const MODEL_CHAIN = [
-  "gemini-2.5-flash",
   "gemini-2.0-flash",
-  "gemini-2.0-flash-lite",
+  "gemini-1.5-pro",
+  "gemini-1.5-flash",
   "gemini-flash-latest",
 ];
 

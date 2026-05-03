@@ -3,7 +3,7 @@ import { logToBigQuery } from "../services/telemetry.service.js";
 import { logger } from "../services/logger.service.js";
 import { sanitize } from "../utils/sanitizer.js";
 import { enrichPrompt } from "../utils/enrichPrompt.js";
-import { getFallbackResponse } from "../utils/education.utils.js";
+import { getFallbackResponse, SYSTEM_PROMPT } from "../utils/education.utils.js";
 
 const chatSessions = new Map();
 
@@ -38,8 +38,8 @@ export const chatController = {
       logger.info("Chat Request", { sessionId: sid, intent });
 
       const history = chatSessions.get(sid) || [
-        { role: "user", parts: [{ text: `You are VoteMitra... ${context}` }] },
-        { role: "model", parts: [{ text: "Namaste!" }] }
+        { role: "user", parts: [{ text: `${SYSTEM_PROMPT()}\n\nINITIAL CONTEXT: ${context}` }] },
+        { role: "model", parts: [{ text: "Namaste! I am VoteMitra. How can I help you today?" }] }
       ];
 
       let fullReply = "";
