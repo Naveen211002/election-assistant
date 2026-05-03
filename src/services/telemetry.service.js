@@ -2,7 +2,7 @@ import { BigQuery } from "@google-cloud/bigquery";
 import { config } from "../config/config.js";
 import { logger } from "./logger.service.js";
 
-const bigquery = new BigQuery({ projectId: config.GCP_PROJECT_ID });
+let bigquery = null;
 
 /**
  * Logs interaction data to BigQuery.
@@ -12,6 +12,9 @@ export async function logToBigQuery(data) {
   if (config.NODE_ENV !== 'production') {return;} // Disable local BigQuery to prevent auth crashes
   
   try {
+    if (!bigquery) {
+      bigquery = new BigQuery({ projectId: config.GCP_PROJECT_ID });
+    }
     const dataset = bigquery.dataset(config.BIGQUERY_DATASET);
     const table = dataset.table(config.BIGQUERY_TABLE);
     

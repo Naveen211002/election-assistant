@@ -1,16 +1,25 @@
 import { Logging } from "@google-cloud/logging";
 import { config } from "../config/config.js";
 
-const logging = new Logging({ projectId: config.GCP_PROJECT_ID });
+let logging = null;
+let log = null;
 const logName = "election-assistant-logs";
-const log = logging.log(logName);
+
+function getLog() {
+  if (!logging) {
+    logging = new Logging({ projectId: config.GCP_PROJECT_ID });
+    log = logging.log(logName);
+  }
+  return log;
+}
 
 /**
  * Structured logger that integrates with Google Cloud Logging.
  */
 export const logger = {
   info: (message, metadata = {}) => {
-    const entry = log.entry({ severity: "INFO", ...metadata }, { message, service: "votemitra" });
+    const logInstance = getLog();
+    const entry = logInstance.entry({ severity: "INFO", ...metadata }, { message, service: "votemitra" });
     if (config.NODE_ENV === 'production') {
       log.write(entry).catch(console.error);
     } else {
@@ -18,7 +27,8 @@ export const logger = {
     }
   },
   error: (message, metadata = {}) => {
-    const entry = log.entry({ severity: "ERROR", ...metadata }, { message, service: "votemitra" });
+    const logInstance = getLog();
+    const entry = logInstance.entry({ severity: "ERROR", ...metadata }, { message, service: "votemitra" });
     if (config.NODE_ENV === 'production') {
       log.write(entry).catch(console.error);
     } else {
@@ -26,7 +36,8 @@ export const logger = {
     }
   },
   warn: (message, metadata = {}) => {
-    const entry = log.entry({ severity: "WARNING", ...metadata }, { message, service: "votemitra" });
+    const logInstance = getLog();
+    const entry = logInstance.entry({ severity: "WARNING", ...metadata }, { message, service: "votemitra" });
     if (config.NODE_ENV === 'production') {
       log.write(entry).catch(console.error);
     } else {
