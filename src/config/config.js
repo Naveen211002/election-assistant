@@ -3,7 +3,7 @@ import { SecretManagerServiceClient } from "@google-cloud/secret-manager";
 
 dotenv.config();
 
-const client = new SecretManagerServiceClient();
+let client = null;
 
 /**
  * Fetches a secret from Google Cloud Secret Manager.
@@ -18,6 +18,9 @@ async function getSecret(secretName) {
   }
   
   try {
+    if (!client) {
+      client = new SecretManagerServiceClient();
+    }
     const projectId = process.env.GCP_PROJECT_ID || process.env.GOOGLE_CLOUD_PROJECT;
     const name = `projects/${projectId}/secrets/${secretName}/versions/latest`;
     const [version] = await client.accessSecretVersion({ name });
