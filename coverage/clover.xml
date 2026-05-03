@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1777816880803" clover="3.2.0">
-  <project timestamp="1777816880803" name="All files">
-    <metrics statements="249" coveredstatements="153" conditionals="151" coveredconditionals="47" methods="37" coveredmethods="24" elements="437" coveredelements="224" complexity="0" loc="249" ncloc="249" packages="7" files="12" classes="12"/>
+<coverage generated="1777817174991" clover="3.2.0">
+  <project timestamp="1777817174991" name="All files">
+    <metrics statements="249" coveredstatements="149" conditionals="151" coveredconditionals="44" methods="37" coveredmethods="23" elements="437" coveredelements="216" complexity="0" loc="249" ncloc="249" packages="7" files="12" classes="12"/>
     <package name="election-assistant">
       <metrics statements="4" coveredstatements="2" conditionals="2" coveredconditionals="1" methods="1" coveredmethods="0"/>
       <file name="server.js" path="C:\Users\ASUS\.gemini\antigravity\scratch\election-assistant\server.js">
@@ -13,9 +13,9 @@
       </file>
     </package>
     <package name="election-assistant.src">
-      <metrics statements="26" coveredstatements="20" conditionals="4" coveredconditionals="1" methods="5" coveredmethods="3"/>
+      <metrics statements="26" coveredstatements="19" conditionals="4" coveredconditionals="1" methods="5" coveredmethods="2"/>
       <file name="app.js" path="C:\Users\ASUS\.gemini\antigravity\scratch\election-assistant\src\app.js">
-        <metrics statements="26" coveredstatements="20" conditionals="4" coveredconditionals="1" methods="5" coveredmethods="3"/>
+        <metrics statements="26" coveredstatements="19" conditionals="4" coveredconditionals="1" methods="5" coveredmethods="2"/>
         <line num="11" count="1" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
         <line num="20" count="1" type="stmt"/>
@@ -34,7 +34,7 @@
         <line num="67" count="1" type="stmt"/>
         <line num="74" count="1" type="stmt"/>
         <line num="77" count="1" type="stmt"/>
-        <line num="81" count="1" type="stmt"/>
+        <line num="81" count="0" type="stmt"/>
         <line num="86" count="1" type="stmt"/>
         <line num="89" count="1" type="stmt"/>
         <line num="90" count="0" type="stmt"/>
@@ -50,8 +50,8 @@
         <metrics statements="15" coveredstatements="6" conditionals="18" coveredconditionals="10" methods="2" coveredmethods="2"/>
         <line num="4" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
-        <line num="16" count="1" type="cond" truecount="2" falsecount="2"/>
-        <line num="17" count="1" type="stmt"/>
+        <line num="16" count="2" type="cond" truecount="2" falsecount="2"/>
+        <line num="17" count="2" type="stmt"/>
         <line num="20" count="0" type="stmt"/>
         <line num="21" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="22" count="0" type="stmt"/>
@@ -62,11 +62,11 @@
         <line num="29" count="0" type="stmt"/>
         <line num="30" count="0" type="stmt"/>
         <line num="34" count="1" type="stmt"/>
-        <line num="42" count="1" type="stmt"/>
+        <line num="42" count="2" type="stmt"/>
       </file>
     </package>
     <package name="election-assistant.src.controllers">
-      <metrics statements="70" coveredstatements="44" conditionals="22" coveredconditionals="10" methods="4" coveredmethods="2"/>
+      <metrics statements="70" coveredstatements="51" conditionals="22" coveredconditionals="11" methods="4" coveredmethods="3"/>
       <file name="chat.controller.js" path="C:\Users\ASUS\.gemini\antigravity\scratch\election-assistant\src\controllers\chat.controller.js">
         <metrics statements="44" coveredstatements="31" conditionals="12" coveredconditionals="5" methods="2" coveredmethods="1"/>
         <line num="8" count="1" type="stmt"/>
@@ -115,31 +115,31 @@
         <line num="94" count="0" type="stmt"/>
       </file>
       <file name="education.controller.js" path="C:\Users\ASUS\.gemini\antigravity\scratch\election-assistant\src\controllers\education.controller.js">
-        <metrics statements="26" coveredstatements="13" conditionals="10" coveredconditionals="5" methods="2" coveredmethods="1"/>
+        <metrics statements="26" coveredstatements="20" conditionals="10" coveredconditionals="6" methods="2" coveredmethods="2"/>
         <line num="6" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
-        <line num="20" count="3" type="stmt"/>
-        <line num="21" count="3" type="cond" truecount="3" falsecount="1"/>
-        <line num="23" count="3" type="stmt"/>
-        <line num="24" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="25" count="1" type="stmt"/>
-        <line num="26" count="1" type="stmt"/>
-        <line num="29" count="2" type="stmt"/>
-        <line num="30" count="2" type="stmt"/>
-        <line num="31" count="2" type="stmt"/>
-        <line num="32" count="2" type="stmt"/>
-        <line num="33" count="2" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="24" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
         <line num="35" count="0" type="stmt"/>
         <line num="36" count="0" type="stmt"/>
-        <line num="48" count="0" type="stmt"/>
-        <line num="49" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="51" count="0" type="stmt"/>
-        <line num="52" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="54" count="0" type="stmt"/>
-        <line num="55" count="0" type="stmt"/>
-        <line num="56" count="0" type="stmt"/>
-        <line num="57" count="0" type="stmt"/>
-        <line num="58" count="0" type="stmt"/>
+        <line num="48" count="1" type="stmt"/>
+        <line num="49" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="51" count="1" type="stmt"/>
+        <line num="52" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="54" count="1" type="stmt"/>
+        <line num="55" count="1" type="stmt"/>
+        <line num="56" count="1" type="stmt"/>
+        <line num="57" count="1" type="stmt"/>
+        <line num="58" count="1" type="stmt"/>
         <line num="60" count="0" type="stmt"/>
         <line num="61" count="0" type="stmt"/>
       </file>
@@ -150,10 +150,10 @@
         <metrics statements="10" coveredstatements="9" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="2"/>
         <line num="7" count="1" type="stmt"/>
         <line num="17" count="1" type="stmt"/>
-        <line num="18" count="2" type="stmt"/>
-        <line num="19" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="18" count="3" type="stmt"/>
+        <line num="19" count="3" type="cond" truecount="1" falsecount="1"/>
         <line num="20" count="0" type="stmt"/>
-        <line num="22" count="2" type="stmt"/>
+        <line num="22" count="3" type="stmt"/>
         <line num="26" count="1" type="stmt"/>
         <line num="29" count="1" type="stmt"/>
         <line num="39" count="1" type="stmt"/>
@@ -161,9 +161,9 @@
       </file>
     </package>
     <package name="election-assistant.src.services">
-      <metrics statements="74" coveredstatements="57" conditionals="38" coveredconditionals="16" methods="11" coveredmethods="11"/>
+      <metrics statements="74" coveredstatements="43" conditionals="38" coveredconditionals="10" methods="11" coveredmethods="9"/>
       <file name="gemini.service.js" path="C:\Users\ASUS\.gemini\antigravity\scratch\election-assistant\src\services\gemini.service.js">
-        <metrics statements="41" coveredstatements="34" conditionals="15" coveredconditionals="8" methods="6" coveredmethods="6"/>
+        <metrics statements="41" coveredstatements="28" conditionals="15" coveredconditionals="5" methods="6" coveredmethods="6"/>
         <line num="7" count="1" type="stmt"/>
         <line num="18" count="3" type="cond" truecount="2" falsecount="0"/>
         <line num="20" count="1" type="stmt"/>
@@ -174,23 +174,23 @@
         <line num="27" count="1" type="stmt"/>
         <line num="34" count="3" type="stmt"/>
         <line num="37" count="3" type="stmt"/>
-        <line num="38" count="6" type="stmt"/>
-        <line num="39" count="6" type="stmt"/>
-        <line num="48" count="6" type="stmt"/>
+        <line num="38" count="3" type="stmt"/>
+        <line num="39" count="3" type="stmt"/>
+        <line num="48" count="3" type="stmt"/>
         <line num="49" count="3" type="cond" truecount="1" falsecount="1"/>
-        <line num="50" count="3" type="stmt"/>
+        <line num="50" count="0" type="stmt"/>
         <line num="52" count="3" type="stmt"/>
-        <line num="55" count="3" type="cond" truecount="2" falsecount="3"/>
-        <line num="61" count="3" type="stmt"/>
-        <line num="63" count="3" type="cond" truecount="1" falsecount="1"/>
-        <line num="64" count="3" type="stmt"/>
-        <line num="65" count="3" type="stmt"/>
+        <line num="55" count="0" type="cond" truecount="0" falsecount="5"/>
+        <line num="61" count="0" type="stmt"/>
+        <line num="63" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="64" count="0" type="stmt"/>
+        <line num="65" count="0" type="stmt"/>
         <line num="68" count="0" type="stmt"/>
         <line num="72" count="0" type="stmt"/>
         <line num="83" count="1" type="stmt"/>
         <line num="84" count="1" type="stmt"/>
-        <line num="85" count="2" type="stmt"/>
-        <line num="86" count="2" type="stmt"/>
+        <line num="85" count="1" type="stmt"/>
+        <line num="86" count="1" type="stmt"/>
         <line num="89" count="1" type="stmt"/>
         <line num="90" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="91" count="1" type="stmt"/>
@@ -198,8 +198,8 @@
         <line num="96" count="0" type="stmt"/>
         <line num="107" count="2" type="stmt"/>
         <line num="108" count="2" type="stmt"/>
-        <line num="109" count="4" type="stmt"/>
-        <line num="116" count="4" type="stmt"/>
+        <line num="109" count="2" type="stmt"/>
+        <line num="116" count="2" type="stmt"/>
         <line num="121" count="2" type="stmt"/>
         <line num="122" count="2" type="stmt"/>
         <line num="123" count="2" type="stmt"/>
@@ -207,36 +207,36 @@
         <line num="126" count="0" type="stmt"/>
       </file>
       <file name="logger.service.js" path="C:\Users\ASUS\.gemini\antigravity\scratch\election-assistant\src\services\logger.service.js">
-        <metrics statements="23" coveredstatements="20" conditionals="11" coveredconditionals="7" methods="4" coveredmethods="4"/>
+        <metrics statements="23" coveredstatements="12" conditionals="11" coveredconditionals="4" methods="4" coveredmethods="2"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
-        <line num="9" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="9" count="2" type="cond" truecount="2" falsecount="0"/>
         <line num="10" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
-        <line num="13" count="10" type="stmt"/>
+        <line num="13" count="2" type="stmt"/>
         <line num="19" count="1" type="stmt"/>
-        <line num="27" count="6" type="stmt"/>
-        <line num="28" count="6" type="stmt"/>
-        <line num="29" count="6" type="cond" truecount="1" falsecount="1"/>
+        <line num="27" count="2" type="stmt"/>
+        <line num="28" count="2" type="stmt"/>
+        <line num="29" count="2" type="cond" truecount="1" falsecount="1"/>
         <line num="30" count="0" type="stmt"/>
-        <line num="32" count="6" type="stmt"/>
-        <line num="43" count="1" type="stmt"/>
-        <line num="44" count="1" type="stmt"/>
-        <line num="45" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="32" count="2" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="45" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="46" count="0" type="stmt"/>
-        <line num="48" count="1" type="stmt"/>
-        <line num="59" count="3" type="stmt"/>
-        <line num="60" count="3" type="stmt"/>
-        <line num="61" count="3" type="cond" truecount="1" falsecount="1"/>
+        <line num="48" count="0" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
+        <line num="60" count="0" type="stmt"/>
+        <line num="61" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="62" count="0" type="stmt"/>
-        <line num="64" count="3" type="stmt"/>
+        <line num="64" count="0" type="stmt"/>
       </file>
       <file name="telemetry.service.js" path="C:\Users\ASUS\.gemini\antigravity\scratch\election-assistant\src\services\telemetry.service.js">
         <metrics statements="10" coveredstatements="3" conditionals="12" coveredconditionals="1" methods="1" coveredmethods="1"/>
         <line num="5" count="1" type="stmt"/>
-        <line num="21" count="2" type="cond" truecount="1" falsecount="1"/>
-        <line num="22" count="2" type="stmt"/>
+        <line num="21" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="22" count="1" type="stmt"/>
         <line num="25" count="0" type="stmt"/>
         <line num="26" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="27" count="0" type="stmt"/>
@@ -247,9 +247,9 @@
       </file>
     </package>
     <package name="election-assistant.src.utils">
-      <metrics statements="50" coveredstatements="15" conditionals="65" coveredconditionals="8" methods="12" coveredmethods="4"/>
+      <metrics statements="50" coveredstatements="19" conditionals="65" coveredconditionals="10" methods="12" coveredmethods="5"/>
       <file name="education.utils.js" path="C:\Users\ASUS\.gemini\antigravity\scratch\election-assistant\src\utils\education.utils.js">
-        <metrics statements="24" coveredstatements="1" conditionals="51" coveredconditionals="0" methods="9" coveredmethods="1"/>
+        <metrics statements="24" coveredstatements="2" conditionals="51" coveredconditionals="0" methods="9" coveredmethods="2"/>
         <line num="2" count="0" type="stmt"/>
         <line num="3" count="0" type="cond" truecount="0" falsecount="4"/>
         <line num="4" count="0" type="cond" truecount="0" falsecount="5"/>
@@ -272,17 +272,17 @@
         <line num="52" count="0" type="stmt"/>
         <line num="56" count="0" type="stmt"/>
         <line num="60" count="0" type="stmt"/>
-        <line num="85" count="2" type="stmt"/>
-        <line num="97" count="0" type="stmt"/>
+        <line num="85" count="1" type="stmt"/>
+        <line num="97" count="1" type="stmt"/>
       </file>
       <file name="enrichPrompt.js" path="C:\Users\ASUS\.gemini\antigravity\scratch\election-assistant\src\utils\enrichPrompt.js">
-        <metrics statements="16" coveredstatements="8" conditionals="10" coveredconditionals="6" methods="1" coveredmethods="1"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="10" count="1" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
-        <line num="13" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
+        <metrics statements="16" coveredstatements="10" conditionals="10" coveredconditionals="7" methods="1" coveredmethods="1"/>
+        <line num="9" count="2" type="stmt"/>
+        <line num="10" count="2" type="stmt"/>
+        <line num="11" count="2" type="stmt"/>
+        <line num="13" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
         <line num="16" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="17" count="0" type="stmt"/>
         <line num="18" count="0" type="stmt"/>
@@ -292,20 +292,20 @@
         <line num="22" count="1" type="cond" truecount="3" falsecount="1"/>
         <line num="23" count="0" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
-        <line num="27" count="1" type="stmt"/>
+        <line num="27" count="2" type="stmt"/>
       </file>
       <file name="sanitizer.js" path="C:\Users\ASUS\.gemini\antigravity\scratch\election-assistant\src\utils\sanitizer.js">
-        <metrics statements="10" coveredstatements="6" conditionals="4" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <metrics statements="10" coveredstatements="7" conditionals="4" coveredconditionals="3" methods="2" coveredmethods="2"/>
         <line num="4" count="1" type="stmt"/>
         <line num="7" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="8" count="1" type="stmt"/>
         <line num="9" count="0" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
-        <line num="16" count="1" type="stmt"/>
-        <line num="27" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="30" count="1" type="stmt"/>
+        <line num="16" count="2" type="stmt"/>
+        <line num="27" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="30" count="2" type="stmt"/>
       </file>
     </package>
   </project>
