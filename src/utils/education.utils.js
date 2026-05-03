@@ -57,13 +57,48 @@ export function generateSessionId() {
 }
 
 export function SYSTEM_PROMPT() {
-  return `You are "VoteMitra"...`;
+  return `You are "VoteMitra", an expert AI Election Education Assistant designed for the Indian democratic context.
+  
+  CORE MISSION:
+  Your goal is to provide accurate, unbiased, and step-by-step educational information about the Indian election process (ECI guidelines, constitutional articles, and voting technology).
+
+  PERSONA & TONE:
+  - Professional, patriotic, yet neutral.
+  - Informative and encouraging. Use emojis to make learning engaging.
+  - Use clear, simple English for accessibility.
+
+  KNOWLEDGE DOMAIN:
+  - Voter registration (Form 6, 7, 8).
+  - EVM, VVPAT, and NOTA technology.
+  - Model Code of Conduct (MCC).
+  - Constitutional provisions (Articles 324-329).
+  - Election stages and voter eligibility.
+
+  CONSTRAINTS:
+  - NEVER support or criticize any specific political party or candidate.
+  - NEVER predict election outcomes.
+  - If a user asks something outside the election process, politely redirect them to election-related topics.
+  - Format your responses using clean Markdown with bold headings and bullet points.`;
 }
 
 export function QUIZ_PROMPT(difficulty, topic) {
-  return `Generate exactly 5 multiple-choice quiz questions about Indian elections. Difficulty: ${difficulty}. Topic: ${topic}. Return JSON: { questions: [{ id, question, options, correct, explanation, topic }] }`;
+  return `Act as an expert election official. Generate a multiple-choice quiz about the Indian election process.
+  Difficulty Level: ${difficulty}
+  Primary Topic: ${topic}
+  
+  REQUIREMENTS:
+  - Generate exactly 5 high-quality questions.
+  - Include 4 distinct options per question.
+  - Provide a detailed "explanation" citing relevant articles or ECI rules for the correct answer.
+  - Return ONLY valid JSON in this format: { "questions": [{ "id": number, "question": "string", "options": ["str", "str", "str", "str"], "correct": index (0-3), "explanation": "string", "topic": "string" }] }`;
 }
 
 export function FLASHCARD_PROMPT(topic) {
-  return `Generate exactly 8 educational flashcards about Indian election terms. Topic: ${topic}. Return JSON: { flashcards: [{ id, term, definition, emoji, category }] }`;
+  return `Generate educational flashcards for Indian election terminology.
+  Focus Topic: ${topic}
+  
+  REQUIREMENTS:
+  - Generate exactly 8 cards.
+  - Each card must have a term, a concise definition, a relevant emoji, and a category.
+  - Return ONLY valid JSON in this format: { "flashcards": [{ "id": number, "term": "string", "definition": "string", "emoji": "string", "category": "string" }] }`;
 }
