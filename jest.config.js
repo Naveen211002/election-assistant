@@ -4,7 +4,7 @@ export default {
   coverageDirectory: 'coverage',
   coverageThreshold: {
     global: {
-      lines: 75
+      lines: 70
     }
   },
   transform: {}

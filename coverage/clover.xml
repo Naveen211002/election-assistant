@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1777804297415" clover="3.2.0">
-  <project timestamp="1777804297416" name="All files">
+<coverage generated="1777804772547" clover="3.2.0">
+  <project timestamp="1777804772547" name="All files">
     <metrics statements="239" coveredstatements="193" conditionals="147" coveredconditionals="111" methods="35" coveredmethods="32" elements="421" coveredelements="336" complexity="0" loc="239" ncloc="239" packages="6" files="11" classes="11"/>
     <package name="election-assistant">
       <metrics statements="22" coveredstatements="17" conditionals="2" coveredconditionals="1" methods="4" coveredmethods="1"/>
@@ -21,7 +21,7 @@
         <line num="66" count="0" type="stmt"/>
         <line num="71" count="3" type="stmt"/>
         <line num="74" count="3" type="stmt"/>
-        <line num="75" count="2" type="stmt"/>
+        <line num="75" count="3" type="stmt"/>
         <line num="79" count="3" type="stmt"/>
         <line num="80" count="0" type="stmt"/>
         <line num="81" count="0" type="stmt"/>
