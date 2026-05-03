@@ -24,6 +24,7 @@ const __dirname = path.dirname(__filename);
  * @type {import('express').Application}
  */
 const app = express();
+app.set('trust proxy', 1);
 
 // ── Security Middleware ───────────────────────────────────────
 app.use(helmet({

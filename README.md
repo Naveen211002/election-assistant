@@ -70,7 +70,7 @@ Our approach leverages a modular Node.js backend acting as a secure middleware b
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Naveen230497/election-assistant.git
+   git clone https://github.com/Naveen2923/election-assistant.git
    ```
 2. Install dependencies:
    ```bash
