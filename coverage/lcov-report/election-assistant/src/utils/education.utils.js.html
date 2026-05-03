@@ -1,0 +1,292 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for election-assistant/src/utils/education.utils.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">election-assistant/src/utils</a> education.utils.js</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">94.59% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>35/37</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">94.11% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>48/51</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>9/9</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">95.83% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>23/24</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line high'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export function getFallbackResponse(message) {
+  const msg = message.toLowerCase();
+  if (msg.includes("evm") || msg.includes("electronic voting")) {return "🗳️ **Electronic Voting Machine (EVM)**\n\nEVMs have been used in all Indian elections since 2004. They are tamper-proof, stand-alone machines. Since 2017, all EVMs are connected to a **VVPAT** machine for transparency.";}
+  if (msg.includes("vvpat") || msg.includes("paper trail") || msg.includes("slip")) {return "🧾 **VVPAT (Voter Verifiable Paper Audit Trail)**\n\nWhen you vote on an EVM, the VVPAT prints a paper slip showing your chosen candidate's serial number, name, and symbol for **7 seconds**. This slip then falls into a sealed box, allowing for physical verification if needed.";}
+  if (msg.includes("register") || msg.includes("voter id") || msg.includes("form 6")) {return "📋 **How to Register to Vote**\n\n1. Visit **voters.eci.gov.in** or use the **Voter Helpline App**.\n2. Fill out **Form 6** (for new voters).\n3. Keep your Aadhaar/Address proof and a photo ready.\n4. Once verified by the BLO, your name will be added to the Electoral Roll.";}
+  if (msg.includes("nota") || msg.includes("none of the above")) {return "❌ **NOTA (None of the Above)**\n\nIntroduced in 2013, NOTA allows voters to officially register a 'rejection' vote if they do not support any of the candidates in their constituency. It is the last button on the EVM.";}
+  if (msg.includes("mcc") || msg.includes("model code") || msg.includes("rules")) {return "📜 **Model Code of Conduct (MCC)**\n\nThese are guidelines issued by the ECI for political parties and candidates. They include:\n1. No use of religion/caste for votes.\n2. No new projects or financial grants by the government after elections are announced.\n3. Parties must inform local police about rallies and processions.";}
+  if (msg.includes("stages") || msg.includes("timeline") || msg.includes("process")) {return "📅 **10 Stages of Election**\n\n1. Delimitation\n2. Electoral Rolls Update\n3. Election Announcement (MCC kicks in)\n4. Notification\n5. Nominations\n6. Scrutiny\n7. Withdrawal\n8. Campaigning\n9. Polling Day\n10. Counting &amp; Results";}
+  if (msg.includes("eligible") || msg.includes("age") || msg.includes("who can vote")) {return "🔞 **Voting Eligibility**\n\nTo vote in India, you must be:\n1. An Indian Citizen.\n2. 18 years or older as of January 1st of the election year.\n3. Registered in the electoral roll of your constituency.";}
+  if (msg.includes("voting day") || msg.includes("polling booth") || msg.includes("documents")) {return "🗳️ **Voting Day Checklist**\n\n1. Find your polling booth using the Voter Helpline App.\n2. Carry your **Voter ID (EPIC)** or any approved photo ID (Aadhaar, PAN, Driving License).\n3. An indelible ink mark will be applied to your finger once you vote.";}
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (msg.includes("hello") || msg.includes("hi") || <span class="branch-2 cbranch-no" title="branch not covered" >msg.includes("namaste"))</span> {return "🇮🇳 **Namaste! I am VoteMitra.**\n\nI can help you with:\n1. 🗳️ EVM &amp; VVPAT info\n2. 📋 Voter Registration (Form 6)\n3. ❌ NOTA details\n4. 🔞 Eligibility rules\n\nWhat would you like to know?";}
+<span class="cstat-no" title="statement not covered" >  return "🗳️ I'm **VoteMitra**, your election assistant! I can help you with Voter Registration, EVM/VVPAT info, NOTA, and more. Please ask a specific question about the Indian election process!";</span>
+}
+&nbsp;
+export function getFallbackQuiz() {
+  return {
+    questions: [
+      { id: 1, question: "Minimum age to vote in India?", options: ["16", "18", "21", "25"], correct: 1, explanation: "Article 326: citizens 18+ are eligible.", topic: "voter-registration" },
+      { id: 2, question: "EVM stands for?", options: ["Electronic Verification Machine", "Electronic Voting Machine", "Election Voting Mechanism", "Electronic Vote Manager"], correct: 1, explanation: "Electronic Voting Machine, used since 1999.", topic: "evm-vvpat" },
+      { id: 3, question: "Which article establishes the ECI?", options: ["Article 280", "Article 324", "Article 352", "Article 370"], correct: 1, explanation: "Article 324 establishes the Election Commission of India.", topic: "constitutional" },
+      { id: 4, question: "What is NOTA?", options: ["A party", "None of the Above on EVM", "A ballot type", "An NGO"], correct: 1, explanation: "NOTA introduced in 2013 to reject all candidates.", topic: "evm-vvpat" },
+      { id: 5, question: "Which form for new voter registration?", options: ["Form 2", "Form 6", "Form 8", "Form 11"], correct: 1, explanation: "Form 6 for new registration; Form 8 for corrections.", topic: "voter-registration" },
+    ],
+  };
+}
+&nbsp;
+export function getFallbackFlashcards() {
+  return {
+    flashcards: [
+      { id: 1, term: "EVM", definition: "Electronic Voting Machine — used since 1999.", emoji: "🗳️", category: "technology" },
+      { id: 2, term: "VVPAT", definition: "Voter Verifiable Paper Audit Trail — prints a slip to verify your vote.", emoji: "🧾", category: "technology" },
+      { id: 3, term: "NOTA", definition: "None of the Above — reject all candidates, introduced 2013.", emoji: "❌", category: "voting" },
+      { id: 4, term: "MCC", definition: "Model Code of Conduct — election rules enforced by ECI.", emoji: "📜", category: "rules" },
+      { id: 5, term: "EPIC", definition: "Electors Photo Identity Card — your Voter ID.", emoji: "🪪", category: "documents" },
+      { id: 6, term: "BLO", definition: "Booth Level Officer — handles voter registration locally.", emoji: "👤", category: "officials" },
+      { id: 7, term: "ECI", definition: "Election Commission of India — constitutional body since 1950.", emoji: "🏛️", category: "institution" },
+      { id: 8, term: "Delimitation", definition: "Redrawing constituency boundaries for equal representation.", emoji: "🗺️", category: "process" },
+    ],
+  };
+}
+&nbsp;
+export function validateChatMessage(message) {
+  if (typeof message !== "string") {return "Message must be a string";}
+  const trimmed = message.trim();
+  if (!trimmed) {return "Message is required";}
+  if (trimmed.length &gt; 1200) {return "Message too long (max 1200 characters)";}
+  return null;
+}
+&nbsp;
+export function redactMessageForTelemetry(message) {
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!message) {<span class="cstat-no" title="statement not covered" >return "";}</span>
+  return message.trim().slice(0, 140);
+}
+&nbsp;
+export function generateSessionId() {
+  return "sess_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+}
+&nbsp;
+export function SYSTEM_PROMPT() {
+  return `You are "VoteMitra"...`;
+}
+&nbsp;
+export function QUIZ_PROMPT(difficulty, topic) {
+  return `Generate exactly 5 multiple-choice quiz questions about Indian elections. Difficulty: ${difficulty}. Topic: ${topic}. Return JSON: { questions: [{ id, question, options, correct, explanation, topic }] }`;
+}
+&nbsp;
+export function FLASHCARD_PROMPT(topic) {
+  return `Generate exactly 8 educational flashcards about Indian election terms. Topic: ${topic}. Return JSON: { flashcards: [{ id, term, definition, emoji, category }] }`;
+}
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-05-03T09:40:57.099Z
+            </div>
+        <script src="../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../sorter.js"></script>
+        <script src="../../../block-navigation.js"></script>
+    </body>
+</html>
+    
